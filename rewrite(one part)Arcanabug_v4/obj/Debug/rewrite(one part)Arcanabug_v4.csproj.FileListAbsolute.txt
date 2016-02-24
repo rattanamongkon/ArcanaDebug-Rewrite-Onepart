@@ -1,0 +1,13 @@
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.exe
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.pdb
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.Form1.resources
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.Properties.Resources.resources
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.csproj.GenerateResource.Cache
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.exe
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.pdb
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\Database1.mdf
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\Database1_log.ldf
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.exe.config
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.Form2.resources
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.Form3.resources
+c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.csprojResolveAssemblyReference.cache

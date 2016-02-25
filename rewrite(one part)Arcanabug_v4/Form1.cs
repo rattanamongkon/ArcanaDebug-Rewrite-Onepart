@@ -89,15 +89,12 @@ namespace rewrite_one_part_Arcanabug_v4
                             waitSend();
                             rawreciveDB = curval;
                             insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                        } else
-                        {
-                            MessageBox.Show("Please try again");
                         }
 
                         //check key
                         if (i == 1)
                         {
-                            MessageBox.Show("Setting key success" + curval);
+                            MessageBox.Show("Setting key success");
                             pnlEncrypt.Enabled = true;
                             groupBox1.Enabled = true;
                             pnlResponse.Enabled = true;
@@ -112,6 +109,10 @@ namespace rewrite_one_part_Arcanabug_v4
             } catch (Exception er)
             {
                 MessageBox.Show(er.ToString());
+                pnlEncrypt.Enabled = false;
+                groupBox1.Enabled = false;
+                pnlResponse.Enabled = false;
+
             }
         }
 
@@ -246,7 +247,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 if (flg == 1)
                 {
                     flg = 0;
-                    return;
+                    break;
                 }
             }
         }
@@ -265,7 +266,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 waitSend();
                 rawreciveDB = curval;
                 insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                MessageBox.Show("40 bit" + curval);
+                MessageBox.Show("Encrypt 40 Bit");
             }
             else
             {
@@ -286,7 +287,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 waitSend();
                 rawreciveDB = curval;
                 insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                MessageBox.Show("80 bit" + curval);
+                MessageBox.Show("Encrypt 80 Bit");
             } else
             {
                 MessageBox.Show("Please try again");
@@ -306,6 +307,7 @@ namespace rewrite_one_part_Arcanabug_v4
 
             strBuffer += ByteArrayToString(buffer);
             //Recive all 17 byte
+            curval = string.Empty;
             if (strBuffer.Length >= 34)
             {
                 curval = strBuffer.Substring(0, 34);
@@ -315,6 +317,7 @@ namespace rewrite_one_part_Arcanabug_v4
                     strBuffer = strBuffer.Substring(34, strBuffer.Length - 34);
             }
             reciveDB = strResponse(curval);
+
             flg = 1;
         }
 
@@ -719,7 +722,6 @@ namespace rewrite_one_part_Arcanabug_v4
         }
 
         Form3 f3 = new Form3();
-        int statusForm3 = 0;
         private void btLoadCSV_Click(object sender, EventArgs e)
         {
             try
@@ -760,7 +762,6 @@ namespace rewrite_one_part_Arcanabug_v4
                         f3.Show();
                         f3.Text = fdlg.FileName;
                         f3.dataGridView1.DataSource = tableLoad;
-                        statusForm3 = 1;
                     }
                     else
                     {
@@ -776,6 +777,11 @@ namespace rewrite_one_part_Arcanabug_v4
             {
                 MessageBox.Show(er.ToString());
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            flg = 1;
         }
     }
 }

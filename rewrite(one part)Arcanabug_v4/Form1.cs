@@ -307,18 +307,19 @@ namespace rewrite_one_part_Arcanabug_v4
 
             strBuffer += ByteArrayToString(buffer);
             //Recive all 17 byte
-            curval = string.Empty;
+            string strtemp = string.Empty;
             if (strBuffer.Length >= 34)
             {
                 curval = strBuffer.Substring(0, 34);
                 if (strBuffer.Length == 34)
+                {
                     strBuffer = string.Empty;
+                }
                 else
                     strBuffer = strBuffer.Substring(34, strBuffer.Length - 34);
+                reciveDB = strResponse(curval);
+                flg = 1;
             }
-            reciveDB = strResponse(curval);
-
-            flg = 1;
         }
 
 

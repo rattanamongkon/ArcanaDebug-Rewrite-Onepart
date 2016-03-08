@@ -6,9 +6,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.IO.Ports;
 using System.IO;
+using System.IO.Ports;
 using System.Data.SqlClient;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace rewrite_one_part_Arcanabug_v4
 {
@@ -18,8 +21,9 @@ namespace rewrite_one_part_Arcanabug_v4
         {
             InitializeComponent();
         }
+
         DataSet ds = new DataSet();
-        string cn = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\Database1.mdf;Integrated Security=True";
+        SqlConnection con = new SqlConnection(@"Data Source = localhost\sqlexpress; Initial Catalog = ArcanaTestDB; User ID = sa; Password = 123456789");
 
         //status save remark database
         string sendDB = string.Empty;
@@ -41,6 +45,7 @@ namespace rewrite_one_part_Arcanabug_v4
             {
                 comboPort.SelectedIndex = 0;
             }
+            loadDB();
             //f2.Show();
         }
 
@@ -52,6 +57,7 @@ namespace rewrite_one_part_Arcanabug_v4
             }
         }
 
+        //setkey
         private void btPnlKey_Click(object sender, EventArgs e)
         {
             try
@@ -64,42 +70,27 @@ namespace rewrite_one_part_Arcanabug_v4
 
                 if (!string.IsNullOrWhiteSpace(tbKey.Text) && tbKey.TextLength == 20)
                 {
-                    //set 80 bit encrypt befor set key
-                    for (int i = 0; i < 2; i++)
-                    {
-                        if (i == 0)
-                        {
-                            remarkDB = "encrypt80";
-                            rxCMconfig = "9E";
-                            rxDataconfig = "1062";
-                            lengthConfig = 13;
-                            lengthCRC = 4;
-                        } else
-                        {
-                            remarkDB = "set key";
-                            rxCMconfig = "88";
-                            rxDataconfig = tbKey.Text;
-                            lengthConfig = 21;
-                            lengthCRC = 12;
-                        }
+                    // set 80 bit encrypt befor set key
+                    // background process
+                    workingThread("setkey80");
 
-                        if (flg == 0)
-                        {
-                            ConfigKey();
-                            waitSend();
-                            rawreciveDB = curval;
-                            insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                        }
+                    //check key
+                    MessageBox.Show("Setting 80bit key success");
+                    pnlEncrypt.Enabled = true;
+                    groupBox1.Enabled = true;
+                    pnlResponse.Enabled = true;
+                }
+                else if (!string.IsNullOrWhiteSpace(tbKey.Text) && tbKey.TextLength == 10)
+                {
+                    // set 40 bit encrypt befor set key
+                    // background process
+                    workingThread("setkey40");
 
-                        //check key
-                        if (i == 1)
-                        {
-                            MessageBox.Show("Setting key success");
-                            pnlEncrypt.Enabled = true;
-                            groupBox1.Enabled = true;
-                            pnlResponse.Enabled = true;
-                        }
-                    }
+                    //check key
+                    MessageBox.Show("Setting 40bit key success");
+                    pnlEncrypt.Enabled = true;
+                    groupBox1.Enabled = true;
+                    pnlResponse.Enabled = true;
                 }
                 else
                 {
@@ -116,41 +107,23 @@ namespace rewrite_one_part_Arcanabug_v4
             }
         }
 
-        Form2 f2 = new Form2();
-        int statusForm = 0;
+        //###########################################################
+        int trimes; //trimes random
+        string tempKey = string.Empty;
+        string tempEncrypt = string.Empty;
         private void btPnlResponse_Click(object sender, EventArgs e)
         {
-            int trimes;
+            pnlGridview.Enabled = true;
             //Load .CSV
             if (f3.lblFileStatus.Text == "true")
             {
                 if (f3.dataGridView1.RowCount > 1)
                 {
-                    remarkDB = "load .CSV";
                     try
                     {
-                        for (int i = 0; i < f3.dataGridView1.RowCount - 1; i++)
-                        {
-                            rxCM = f3.dataGridView1.Rows[i].Cells[0].Value.ToString();
-                            rxData = f3.dataGridView1.Rows[i].Cells[1].Value.ToString();
+                        //Start Thread
+                        workingThread("loadCSV");
 
-                            SendData();
-                            waitSend();
-                            rawreciveDB = curval;
-                            insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                        }
-                        if (f2.statusForm.Text == "false" || statusForm == 0)
-                        {
-                            f2 = new Form2();
-                            f2.Show();
-                            statusForm = 1;
-                        }
-                        else
-                        {
-                            f2.Close();
-                            f2 = new Form2();
-                            f2.Show();
-                        }
                     } catch(Exception er)
                     {
                         MessageBox.Show(er.ToString());
@@ -164,6 +137,7 @@ namespace rewrite_one_part_Arcanabug_v4
 
             if (!string.IsNullOrWhiteSpace(tbCommand.Text))
             {
+                //random
                 if (chkRandom.Checked)
                 {
                     remarkDB = "random";
@@ -174,63 +148,18 @@ namespace rewrite_one_part_Arcanabug_v4
                     else
                     {
                         trimes = Int32.Parse(tbTrimes.Text);
-                        for (int i = 0; i < trimes; i++)
-                        {
-                            rxCM = tbCommand.Text;
-                            rxData = rand();
-                            tbData.Text = rxData;
-                            SendData();
-                            waitSend();
-                            ///////////////////////////////////////
-                            tbResponse.Text = strResponse(curval);
-                            rawreciveDB = curval;
-                            insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                            ///////////////////////////////////////
-                        }
-                        if (f2.statusForm.Text == "false" || statusForm == 0)
-                        {
-                            f2 = new Form2();
-                            f2.Show();
-                            statusForm = 1;
-                        }
-                        else
-                        {
-                            f2.Close();
-                            f2 = new Form2();
-                            f2.Show();
-                        }
+                        //Start Thread
+                        workingThread("random");
                     }
                 }
                 else
                 {
+                    //one command
                     remarkDB = "one command";
                     rxCM = tbCommand.Text;
                     rxData = tbData.Text;
-
-                    if (flg == 0)
-                    {
-                        SendData();
-                        waitSend();
-                        tbResponse.Text = strResponse(curval);
-                        rawreciveDB = curval;
-                        insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                        if (f2.statusForm.Text == "false" || statusForm == 0)
-                        {
-                            f2 = new Form2();
-                            f2.Show();
-                            statusForm = 1;
-                        }
-                        else
-                        {
-                            f2.Close();
-                            f2 = new Form2();
-                            f2.Show();
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Please try agian");
-                    }
+                    //StartThread
+                    workingThread("onecommand");
                 }
             }else
             {
@@ -239,42 +168,35 @@ namespace rewrite_one_part_Arcanabug_v4
             
         }
 
-        int flg = 0;
-        private void waitSend()
-        {
-            while (true)
-            {
-                if (flg == 1)
-                {
-                    flg = 0;
-                    break;
-                }
-            }
-        }
-
-        private void radioButton1_Click(object sender, EventArgs e)
+        private void encrypt40()
         {
             remarkDB = "encrypt40";
             rxCMconfig = "9E";
             rxDataconfig = "0062";
             lengthConfig = 13;
             lengthCRC = 4;
-
             if (flg == 0)
             {
                 ConfigKey();
                 waitSend();
                 rawreciveDB = curval;
                 insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                MessageBox.Show("Encrypt 40 Bit");
+                UpdateTable(ds, rxData, curval);
             }
             else
             {
-                MessageBox.Show("Please try again");
+                return;
             }
         }
+        private void radioButton1_Click(object sender, EventArgs e)
+        {
+            workingThread("encrypt40");
+            statuswork = true;
+            MessageBox.Show("Encrypt 40 Bit");
+            workThread.Abort();
+        }
 
-        private void radioButton2_Click(object sender, EventArgs e)
+        private void encrypt80()
         {
             remarkDB = "encrypt80";
             rxCMconfig = "9E";
@@ -287,10 +209,186 @@ namespace rewrite_one_part_Arcanabug_v4
                 waitSend();
                 rawreciveDB = curval;
                 insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
-                MessageBox.Show("Encrypt 80 Bit");
-            } else
+                UpdateTable(ds, rxData, curval);
+            }
+            else
             {
-                MessageBox.Show("Please try again");
+                return;
+            }
+        }
+        private void radioButton2_Click(object sender, EventArgs e)
+        {
+            workingThread("encrypt80");
+            statuswork = true;
+            MessageBox.Show("Encrypt 80 Bit");
+            workThread.Abort();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            serialPort1.Close();
+        }
+
+        int c = 1;
+        private void chkRandom_Click(object sender, EventArgs e)
+        {
+            if (c == 1)
+            {
+                pnlSetRan.Visible = true;
+                c = 0;
+            }
+            else
+            {
+                pnlSetRan.Visible = false;
+                c = 1;
+            }
+        }
+
+        Form3 f3 = new Form3();
+        private void btLoadCSV_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable tableLoad = new DataTable();
+                OpenFileDialog fdlg = new OpenFileDialog();
+                fdlg.Title = "Select file";
+                fdlg.InitialDirectory = @"c:\";
+                fdlg.Filter = "Text and CSV Files(*.txt, *.csv)|*.txt;*.csv|Text Files(*.txt)|*.txt|CSV Files(*.csv)|*.csv|All Files(*.*)|*.*";
+                fdlg.FilterIndex = 1;
+                fdlg.RestoreDirectory = true;
+                if (fdlg.ShowDialog() == DialogResult.OK)
+                {
+                    string[] raw_text = System.IO.File.ReadAllLines(fdlg.FileName);
+                    string[] data_col = null;
+                    int x = 0;
+                    foreach (string text_line in raw_text)
+                    {
+                        data_col = text_line.Split(',');
+                        if (x == 0)
+                        {
+                            //header
+                            for (int i = 0; i <= data_col.Count() - 1; i++)
+                            {
+                                tableLoad.Columns.Add(data_col[i]);
+                            }
+                            x++;
+                        }
+                        else
+                        {
+                            //data
+                            tableLoad.Rows.Add(data_col);
+                        }
+                    }
+                    if (f3.lblFileStatus.Text == "false")
+                    {
+                        f3 = new Form3();
+                        f3.Show();
+                        f3.Text = fdlg.FileName;
+                        f3.dataGridView1.DataSource = tableLoad;
+                    }
+                    else
+                    {
+                        f3.Close();
+                        f3 = new Form3();
+                        f3.Show();
+                        f3.Text = fdlg.FileName;
+                        f3.dataGridView1.DataSource = tableLoad;
+                    }
+                }
+
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        bool statuuSaveDB = true;
+        private void btSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!statuuSaveDB)
+                {
+                    con.Open();
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "SELECT * FROM tblArcana";
+                    cmd.ExecuteNonQuery();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    SqlCommandBuilder cb = new SqlCommandBuilder(da);
+                    da.Update(ds, "tblArcana");
+                    con.Close();
+
+                    MessageBox.Show("!--Save to Database Success--!");
+                    loadDB();
+                    statuuSaveDB = true;
+                }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                if (!statuuSaveDB)
+                {
+                    DialogResult result = MessageBox.Show("Want to save your changes to Database?", "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                    if (result == DialogResult.Yes)
+                    {
+                        con.Open();
+                        SqlCommand cmd = con.CreateCommand();
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "SELECT * FROM tblArcana";
+                        cmd.ExecuteNonQuery();
+                        SqlDataAdapter da = new SqlDataAdapter(cmd);
+                        SqlCommandBuilder cb = new SqlCommandBuilder(da);
+                        da.Update(ds, "tblArcana");
+                        con.Close();
+
+                        MessageBox.Show("!--Save to Database Success--!");
+                        loadDB();
+                        statuuSaveDB = true;
+                    }
+                    else if (result == DialogResult.Cancel)
+                    {
+                        e.Cancel = true;
+                    }
+                }
+            }
+            catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+            }
+        }
+
+        private void tbSkey_TextChanged(object sender, EventArgs e)
+        {
+            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text);
+        }
+
+        private void tbSsend_TextChanged(object sender, EventArgs e)
+        {
+            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text);
+        }
+
+        private void comboSremark_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text);
+        }
+
+        private void btSaveCSV_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfdl = new SaveFileDialog();
+            sfdl.Filter = "CSV Files(*.csv)|*.csv|Text Files(*.txt)|*.txt";
+            if (sfdl.ShowDialog() == DialogResult.OK)
+            {
+                string filename = sfdl.FileName;
+                writeCSV(dgrDatabase, filename);
             }
         }
 
@@ -322,7 +420,368 @@ namespace rewrite_one_part_Arcanabug_v4
             }
         }
 
+        Thread workThread = null;
+        bool statuswork = true;
+        private void workingThread(string mode)
+        {
+            statuswork = false;
+            if (mode == "random")
+            {
+                workThread = new Thread(new ThreadStart(sendingRandom));
+            }
+            else if (mode == "setkey80")
+            {
+                workThread = new Thread(new ThreadStart(setting80bitKey));
+            }
+            else if (mode == "setkey40")
+            {
+                workThread = new Thread(new ThreadStart(setting40bitKey));
+            }
+            else if (mode == "onecommand")
+            {
+                workThread = new Thread(new ThreadStart(sendingOneCommand));
+            }
+            else if (mode == "encrypt40")
+            {
+                workThread = new Thread(new ThreadStart(encrypt40));
+            }
+            else if (mode == "encrypt80")
+            {
+                workThread = new Thread(new ThreadStart(encrypt80));
+            }
+            else if (mode == "loadCSV")
+            {
+                workThread = new Thread(new ThreadStart(loadingCSV));
+            }
+            statuuSaveDB = false;
+            workThread.IsBackground = true;
+            workThread.Start();
+        }
 
+        delegate void StringParameterDelegate(DataSet ds, string rxData, string curval);
+        private void UpdateTable(DataSet ds, string rxData, string curval)
+        {
+            try
+            {
+                if (InvokeRequired)
+                {
+                    // We're not in the UI thread, so we need to call BeginInvoke
+                    BeginInvoke(new StringParameterDelegate(UpdateTable), new object[] { ds, rxData, curval });
+                    return;
+                }
+
+                // show status working
+                if (statuswork)
+                {
+                    pictureBox1.Visible = false;
+                }
+                else
+                {
+                    pictureBox1.Visible = true;
+                }
+
+                //Processchang UI
+                tbData.Text = rxData;
+                tbResponse.Text = strResponse(curval);
+                //update data gridview
+                dgrDatabase.DataSource = ds.Tables["tblArcana"];
+                //set below scrollbar
+                dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0];
+                //sort new data on top
+                //dgrDatabase.Sort(dgrDatabase.Columns[0], ListSortDirection.Descending);
+                //set top scrollbar
+                //dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[0].Cells[0];
+                //dgrDatabase.Refresh();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return;
+            }
+        }
+
+        private void sendingRandom()
+        {
+            for (int i = 0; i < trimes; i++)
+            {
+                rxCM = tbCommand.Text;
+                rxData = rand();
+                //tbData.Text = rxData;
+                SendData();
+                waitSend();
+                ///////////////////////////////////////
+                //tbResponse.Text = strResponse(curval);
+                rawreciveDB = curval;
+                insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
+                UpdateTable(ds, rxData, curval);
+                ///////////////////////////////////////
+            }
+            statuswork = true;
+            workThread.Abort();
+        }
+
+        private void sendingOneCommand()
+        {
+            SendData();
+            waitSend();
+            //tbResponse.Text = strResponse(curval);
+            rawreciveDB = curval;
+            insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
+            UpdateTable(ds, rxData, curval);
+            statuswork = true;
+            workThread.Abort();
+        }
+
+        private void setting80bitKey()
+        {
+            set80bitKey(tbKey.Text);
+            statuswork = true;
+            workThread.Abort();
+        }
+
+        private void setting40bitKey()
+        {
+            set40bitKey(tbKey.Text);
+            statuswork = true;
+            workThread.Abort();
+        }
+
+        private void loadingCSV()
+        {
+            for (int i = 0; i < f3.dataGridView1.RowCount; i++)
+            {
+                if (tempKey != f3.dataGridView1.Rows[i].Cells[0].Value.ToString())
+                {
+                    tempKey = f3.dataGridView1.Rows[i].Cells[0].Value.ToString();
+                    if (tempKey.Length == 20)
+                    {
+                        set80bitKey(tempKey);
+                    }else if (tempKey.Length == 10)
+                    {
+                        set40bitKey(tempKey);
+                    }
+                }
+
+                if (tempEncrypt != f3.dataGridView1.Rows[i].Cells[3].Value.ToString())
+                {
+                    tempEncrypt = f3.dataGridView1.Rows[i].Cells[3].Value.ToString();
+                    if (tempEncrypt == "40 bit")
+                    {
+                        encrypt40();
+                    }
+                    else if (tempEncrypt == "80 bit")
+                    {
+                        encrypt80();
+                    }
+                }
+
+                remarkDB = "load .CSV";
+                rxCM = f3.dataGridView1.Rows[i].Cells[2].Value.ToString();
+                rxData = f3.dataGridView1.Rows[i].Cells[1].Value.ToString();
+
+                SendData();
+                waitSend();
+                rawreciveDB = curval;
+                insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
+                UpdateTable(ds, rxData, curval);
+            }
+            statuswork = true;
+            workThread.Abort();
+        }
+
+        //bgWorking
+        //BackgroundWorker bgWorker;
+        //ProgressDlg progressDlg;
+        //private void working()
+        //{
+        //    // New BackgroundWorker
+        //    bgWorker = new BackgroundWorker();
+        //    bgWorker.WorkerReportsProgress = true;
+        //    bgWorker.WorkerSupportsCancellation = true;
+        //    bgWorker.DoWork += new DoWorkEventHandler(bgWorker_DoWork);
+        //    bgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgWorker_RunWorkerCompleted);
+        //    bgWorker.ProgressChanged += new ProgressChangedEventHandler(bgWorker_ProgressChanged);
+
+        //    // Start the asynchronous operation.
+        //    bgWorker.RunWorkerAsync();
+
+        //    // New Dialog
+        //    progressDlg = new ProgressDlg();
+        //    progressDlg.stopProgress = new EventHandler((s, e1) =>
+        //    {
+        //        switch (progressDlg.DialogResult)
+        //        {
+        //            // When click stop button from Progress Dialog
+        //            case DialogResult.Cancel:
+        //                bgWorker.CancelAsync();
+        //                progressDlg.Close();
+        //                break;
+        //        }
+        //    });
+        //    progressDlg.ShowDialog();
+
+        //}
+
+        //// ### work Status ###
+        //// 0 = setkey
+        //// 1 = encrypt40
+        //// 2 = encrypt80
+        //// 3 = one command
+        //// 4 = random
+        //// 5 = loadCSV
+        //int workStatus;
+        //private void bgWorker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    BackgroundWorker worker = sender as BackgroundWorker;
+
+        //    if (workStatus == 0)
+        //    {
+        //        setting80bitKey();
+        //        worker.ReportProgress(100);
+        //    } else if (workStatus == 1)
+        //    {
+        //        encrypt40();
+        //        worker.ReportProgress(100);
+        //    } else if (workStatus == 2)
+        //    {
+        //        encrypt80();
+        //        worker.ReportProgress(100);
+        //    } else if (workStatus == 3)
+        //    {
+        //        sendingOneCommand();
+        //        worker.ReportProgress(100);
+        //    } else if (workStatus == 4)
+        //    {
+        //        sendingRandom();
+        //        worker.ReportProgress(100);
+        //    } else if (workStatus == 5)
+        //    {
+        //        loadingCSV();
+        //        worker.ReportProgress(100);
+        //    }
+
+        //}
+
+        //// This event handler updates the progress.
+        //private void bgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        //{
+        //    f2.lblstatus.Text = "Processing...";
+
+        //    // Update status to Dialog
+        //    progressDlg.Message = (e.ProgressPercentage.ToString() + "%");
+        //    progressDlg.ProgressValue = e.ProgressPercentage;
+
+        //    tbData.Text = rxData;
+        //    tbResponse.Text = strResponse(curval);
+        //    //patcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+        //    //{
+        //        f2.dataGridView1.DataSource = ds.Tables["tblArcana"];
+        //    //}));
+
+        //    if (f2.statusForm.Text != "false")
+        //    {
+        //        // set below scorllbar (1hr in search hahaha )
+        //        f2.dataGridView1.FirstDisplayedCell = f2.dataGridView1.Rows[f2.dataGridView1.Rows.Count - 1].Cells[0];
+        //    }
+        //}
+
+        //// This event handler deals with the results of the background operation.
+        //private void bgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    if (e.Cancelled == true)
+        //    {
+        //        f2.lblstatus.Text = "Canceled!";
+        //    }
+        //    else if (e.Error != null)
+        //    {
+        //        f2.lblstatus.Text = "Error: " + e.Error.Message;
+        //    }
+        //    else
+        //    {
+        //        f2.lblstatus.Text = "Done!";
+        //    }
+        //    progressDlg.Close();
+        //}
+        //---------------------------------------------------------------------------------------------//
+
+        private void set80bitKey(string rxDataKey)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                if (i == 0)
+                {
+                    //set 80 bit befor set key
+                    remarkDB = "encrypt80";
+                    rxCMconfig = "9E";
+                    rxDataconfig = "1062";
+                    lengthConfig = 13;
+                    lengthCRC = 4;
+                }
+                else
+                {
+                    remarkDB = "set key";
+                    rxCMconfig = "88";
+                    rxDataconfig = rxDataKey;
+                    lengthConfig = 21;
+                    lengthCRC = 12;
+                }
+
+                if (flg == 0)
+                {
+                    ConfigKey();
+                    waitSend();
+                    rawreciveDB = curval;
+                    insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
+                    UpdateTable(ds, rxData, curval);
+                }
+            }
+        }
+
+        private void set40bitKey(string rxDataKey)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                if (i == 0)
+                {
+                    //set 40 bit befor set key
+                    remarkDB = "encrypt40";
+                    rxCMconfig = "9E";
+                    rxDataconfig = "0062";
+                    lengthConfig = 13;
+                    lengthCRC = 4;
+                }
+                else
+                {
+                    remarkDB = "set key";
+                    rxCMconfig = "88";
+                    rxDataconfig = rxDataKey;
+                    lengthConfig = 16;
+                    lengthCRC = 7;
+                }
+
+                if (flg == 0)
+                {
+                    ConfigKey();
+                    waitSend();
+                    rawreciveDB = curval;
+                    insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
+                    UpdateTable(ds, rxData, curval);
+                }
+            }
+        }
+
+        int flg = 0;
+        private void waitSend()
+        {
+            while (true)
+            {
+                if (flg == 1)
+                {
+                    flg = 0;
+                    break;
+                }
+            }
+        }
 
         //send data config
         string rxCMconfig = string.Empty;
@@ -680,109 +1139,131 @@ namespace rewrite_one_part_Arcanabug_v4
 
         private void insertDB(string send, string recive, string key, string raw_send, string raw_recive, string remark)
         {
-            string sql = "SELECT * FROM tblDB";
-            SqlDataAdapter da = new SqlDataAdapter(sql, cn);
-            da.Fill(ds, "DB");
-
-            DataRow dr = ds.Tables["DB"].NewRow();
-            dr["datetime"] = DateTime.Now.ToString();
-            dr["send"] = send;
-            dr["recive"] = recive;
-            dr["keyconfig"] = key;
-            dr["raw_send"] = raw_send;
-            dr["raw_recive"] = raw_recive;
-            dr["remark"] = remark;
-
-            ds.Tables["DB"].Rows.Add(dr);
-
-
-            //sql = "SELECT * FROM tblDB";
-            //da = new SqlDataAdapter(sql, cn);
-            SqlCommandBuilder cb = new SqlCommandBuilder(da);
-            da.Update(ds, "DB");
-        }
-
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            serialPort1.Close();
-        }
-
-        int c = 1;
-        private void chkRandom_Click(object sender, EventArgs e)
-        {
-            if (c == 1)
+            try
             {
-                pnlSetRan.Visible = true;
-                c = 0;
+                //string sql = "SELECT * FROM tblArcana";
+                //SqlDataAdapter da = new SqlDataAdapter(sql, cn);
+                //da.Fill(ds, "tblArcana");
+
+                DataRow dr = ds.Tables["tblArcana"].NewRow();
+                dr["datetime"] = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
+                dr["send"] = send.ToUpper();
+                dr["recive"] = recive.ToUpper();
+                dr["keyconfig"] = key.ToUpper();
+                dr["raw_send"] = raw_send.ToUpper();
+                dr["raw_recive"] = raw_recive.ToUpper();
+                dr["remark"] = remark;
+
+                ds.Tables["tblArcana"].Rows.Add(dr);
+                //Realtime show Form2 datagridview (if haveThread)
+                //f2.dataGridView1.DataSource = ds.Tables["tblArcana"];
+                //SqlCommandBuilder cb = new SqlCommandBuilder(da);
+                //da.Update(ds, "tblArcana");
             }
-            else
+            catch (Exception e)
             {
-                pnlSetRan.Visible = false;
-                c = 1;
+                MessageBox.Show(e.ToString());
             }
         }
 
-        Form3 f3 = new Form3();
-        private void btLoadCSV_Click(object sender, EventArgs e)
+        private void loadDB()
+        {
+            con.Open();
+            SqlCommand cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM tblArcana";
+            cmd.ExecuteNonQuery();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            ds = new DataSet();
+            da.Fill(ds, "tblArcana");
+
+            dgrDatabase.DataSource = ds.Tables["tblArcana"];
+
+            // set width cell
+            // id
+            dgrDatabase.Columns[0].Width = 40;
+            // datetime
+            dgrDatabase.Columns[1].Width = 80;
+            dgrDatabase.Columns[1].DefaultCellStyle.Format = "dd/MM/yyyy HH:MM:ssss";
+            // send
+            dgrDatabase.Columns[2].Width = 150;
+            // recive
+            dgrDatabase.Columns[3].Width = 200;
+            // keyconfig
+            dgrDatabase.Columns[4].Width = 220;
+            // raw_send
+            dgrDatabase.Columns[5].Width = 150;
+            // raw_recive
+            dgrDatabase.Columns[6].Width = 150;
+            // raw_remark
+            dgrDatabase.Columns[7].Width = 100;
+
+            //set below scorllbar
+            dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0];
+            //dgrDatabase.Sort(dgrDatabase.Columns[0], ListSortDirection.Descending);
+            con.Close();
+        }
+
+        public void writeCSV(DataGridView gridIn, string outputFile)
         {
             try
             {
-                DataTable tableLoad = new DataTable();
-                OpenFileDialog fdlg = new OpenFileDialog();
-                fdlg.Title = "Select file";
-                fdlg.InitialDirectory = @"c:\";
-                fdlg.Filter = "Text and CSV Files(*.txt, *.csv)|*.txt;*.csv|Text Files(*.txt)|*.txt|CSV Files(*.csv)|*.csv|All Files(*.*)|*.*";
-                fdlg.FilterIndex = 1;
-                fdlg.RestoreDirectory = true;
-                if (fdlg.ShowDialog() == DialogResult.OK)
+                //test to see if the DataGridView has any rows
+                if (gridIn.RowCount > 0)
                 {
-                    string[] raw_text = System.IO.File.ReadAllLines(fdlg.FileName);
-                    string[] data_col = null;
-                    int x = 0;
-                    foreach (string text_line in raw_text)
-                    {
-                        data_col = text_line.Split(',');
-                        if (x == 0)
-                        {
-                            //header
-                            for (int i = 0; i <= data_col.Count() - 1; i++)
-                            {
-                                tableLoad.Columns.Add(data_col[i]);
-                            }
-                            x++;
-                        }
-                        else
-                        {
-                            //data
-                            tableLoad.Rows.Add(data_col);
-                        }
-                    }
-                    if (f3.lblFileStatus.Text == "false" || statusForm == 0)
-                    {
-                        f3 = new Form3();
-                        f3.Show();
-                        f3.Text = fdlg.FileName;
-                        f3.dataGridView1.DataSource = tableLoad;
-                    }
-                    else
-                    {
-                        f3.Close();
-                        f3 = new Form3();
-                        f3.Show();
-                        f3.Text = fdlg.FileName;
-                        f3.dataGridView1.DataSource = tableLoad;
-                    }
-                }
+                    string value = "";
+                    DataGridViewRow dr = new DataGridViewRow();
+                    StreamWriter swOut = new StreamWriter(outputFile);
 
-            } catch (Exception er)
+                    //write header rows to csv
+                    for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                    {
+                        if (i > 0)
+                        {
+                            swOut.Write(",");
+                        }
+                        swOut.Write(gridIn.Columns[i].HeaderText);
+                    }
+
+                    swOut.WriteLine();
+
+                    //write DataGridView rows to csv
+                    for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
+                    {
+                        if (j > 0)
+                        {
+                            swOut.WriteLine();
+                        }
+
+                        dr = gridIn.Rows[j];
+
+                        for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                        {
+                            if (i > 0)
+                            {
+                                swOut.Write(",");
+                            }
+
+                            value = dr.Cells[i].Value.ToString();
+                            //replace comma's with spaces
+                            value = value.Replace(',', ' ');
+                            //replace embedded newlines with spaces
+                            value = value.Replace(Environment.NewLine, " ");
+
+                            swOut.Write(value);
+                        }
+                    }
+                    swOut.Close();
+                    MessageBox.Show("Save file completed");
+                }
+            }
+            catch (Exception er)
             {
                 MessageBox.Show(er.ToString());
+                return;
             }
+
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            flg = 1;
-        }
     }
 }

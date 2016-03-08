@@ -42,42 +42,15 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="rewrite(one part)Arcanabug_v4.exe" size="81904">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="rewrite(one part)Arcanabug_v4.exe" size="151024">
       <assemblyIdentity name="rewrite(one part)Arcanabug_v4" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>0klPuNyvs1OfSgSHOvPEuDsEeW8=</dsig:DigestValue>
+        <dsig:DigestValue>8iaoNIMVEalVcEO+VHMvjr6Lfxs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="Database1.mdf" size="3342336" writeableType="applicationData">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>wQOj8KQsif6iQmQCe9h6dUU/LGk=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="Database1_log.ldf" size="851968" writeableType="applicationData">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>NFvchKlzmIXPKZHSRv6viI03HTY=</dsig:DigestValue>
-    </hash>
-  </file>
-  <file name="rewrite(one part)Arcanabug_v4.exe.config" size="462">
-    <hash>
-      <dsig:Transforms>
-        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-      </dsig:Transforms>
-      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>78HlHL1cM7kPsajcdQUuYCX4Xtg=</dsig:DigestValue>
-    </hash>
-  </file>
 </asmv1:assembly>

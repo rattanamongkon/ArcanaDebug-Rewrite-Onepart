@@ -19,29 +19,26 @@ namespace rewrite_one_part_Arcanabug_v4
         }
 
         DataSet ds = new DataSet();
-        SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\Database1.mdf;Integrated Security=True");
+        SqlConnection con = new SqlConnection(@"Data Source = localhost\sqlexpress; Initial Catalog = ArcanaTestDB; User ID = sa; Password = 123456789");
+        //SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\Database1.mdf;Integrated Security=True");
         //string cn = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=c:\users\rattanamongkon\documents\visual studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\Database1.mdf;Integrated Security=True";
 
         private void Form2_Load(object sender, EventArgs e)
         {
             statusForm.Text = "true";
-            //string sql = "SELECT * FROM tblDB";
-            //SqlDataAdapter da = new SqlDataAdapter(sql, cn);
-
-            //da.Fill(ds, "DB");
-
-            //dataGridView1.DataSource = ds.Tables["DB"];
 
             con.Open();
             SqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM tblDB";
+            cmd.CommandText = "SELECT * FROM tblArcana";
             cmd.ExecuteNonQuery();
             DataTable dt = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             da.Fill(dt);
-            dataGridView1.DataSource = dt;
 
+            dataGridView1.DataSource = dt;
+            //set below scorllbar
+            dataGridView1.FirstDisplayedCell = dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[0];
             con.Close();
         }
 
@@ -69,7 +66,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 con.Open();
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM tblDB WHERE keyconfig LIKE ('" + textBox2.Text + "%') AND send LIKE ('"+ textBox3.Text +"%') AND remark LIKE ('"+ comboBox1.Text +"%')";
+                cmd.CommandText = "SELECT * FROM tblArcana WHERE keyconfig LIKE ('" + textBox2.Text + "%') AND send LIKE ('"+ textBox3.Text +"%') AND remark LIKE ('"+ comboBox1.Text +"%')";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -90,7 +87,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 con.Open();
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM tblDB WHERE keyconfig LIKE ('" + textBox2.Text + "%') AND send LIKE ('" + textBox3.Text + "%') AND remark LIKE ('" + comboBox1.Text + "%')";
+                cmd.CommandText = "SELECT * FROM tblArcana WHERE keyconfig LIKE ('" + textBox2.Text + "%') AND send LIKE ('" + textBox3.Text + "%') AND remark LIKE ('" + comboBox1.Text + "%')";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -112,7 +109,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 con.Open();
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SELECT * FROM tblDB WHERE keyconfig LIKE ('" + textBox2.Text + "%') AND send LIKE ('" + textBox3.Text + "%') AND remark LIKE ('" + comboBox1.Text + "%')";
+                cmd.CommandText = "SELECT * FROM tblArcana WHERE keyconfig LIKE ('" + textBox2.Text + "%') AND send LIKE ('" + textBox3.Text + "%') AND remark LIKE ('" + comboBox1.Text + "%')";
                 cmd.ExecuteNonQuery();
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -127,64 +124,64 @@ namespace rewrite_one_part_Arcanabug_v4
             }
         }
 
-        private void textBox1_Enter(object sender, EventArgs e)
-        {
-            TextBox TB = (TextBox)sender;
-            int VisibleTime = 1000;  //in milliseconds
-
-            ToolTip tt = new ToolTip();
-            tt.Show("MM/DD/YYYY hh:mm:ss", TB, 0, 0, VisibleTime);
-        }
-
         public void writeCSV(DataGridView gridIn, string outputFile)
         {
-            //test to see if the DataGridView has any rows
-            if (gridIn.RowCount > 0)
+            try
             {
-                string value = "";
-                DataGridViewRow dr = new DataGridViewRow();
-                StreamWriter swOut = new StreamWriter(outputFile);
-
-                //write header rows to csv
-                for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                //test to see if the DataGridView has any rows
+                if (gridIn.RowCount > 0)
                 {
-                    if (i > 0)
-                    {
-                        swOut.Write(",");
-                    }
-                    swOut.Write(gridIn.Columns[i].HeaderText);
-                }
+                    string value = "";
+                    DataGridViewRow dr = new DataGridViewRow();
+                    StreamWriter swOut = new StreamWriter(outputFile);
 
-                swOut.WriteLine();
-
-                //write DataGridView rows to csv
-                for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
-                {
-                    if (j > 0)
-                    {
-                        swOut.WriteLine();
-                    }
-
-                    dr = gridIn.Rows[j];
-
+                    //write header rows to csv
                     for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
                     {
                         if (i > 0)
                         {
                             swOut.Write(",");
                         }
-
-                        value = dr.Cells[i].Value.ToString();
-                        //replace comma's with spaces
-                        value = value.Replace(',', ' ');
-                        //replace embedded newlines with spaces
-                        value = value.Replace(Environment.NewLine, " ");
-
-                        swOut.Write(value);
+                        swOut.Write(gridIn.Columns[i].HeaderText);
                     }
+
+                    swOut.WriteLine();
+
+                    //write DataGridView rows to csv
+                    for (int j = 0; j <= gridIn.Rows.Count - 1; j++)
+                    {
+                        if (j > 0)
+                        {
+                            swOut.WriteLine();
+                        }
+
+                        dr = gridIn.Rows[j];
+
+                        for (int i = 0; i <= gridIn.Columns.Count - 1; i++)
+                        {
+                            if (i > 0)
+                            {
+                                swOut.Write(",");
+                            }
+
+                            value = dr.Cells[i].Value.ToString();
+                            //replace comma's with spaces
+                            value = value.Replace(',', ' ');
+                            //replace embedded newlines with spaces
+                            value = value.Replace(Environment.NewLine, " ");
+
+                            swOut.Write(value);
+                        }
+                    }
+                    swOut.Close();
+                    MessageBox.Show("Save file completed");
                 }
-                swOut.Close();
+            } catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
+                return;
             }
+            
         }
     }
 }

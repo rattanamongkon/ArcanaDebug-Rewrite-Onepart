@@ -35,16 +35,19 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 68);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 44);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(530, 314);
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.Size = new System.Drawing.Size(530, 482);
             this.dataGridView1.TabIndex = 0;
             // 
             // lblFileStatus
             // 
             this.lblFileStatus.AutoSize = true;
-            this.lblFileStatus.Location = new System.Drawing.Point(43, 33);
+            this.lblFileStatus.Location = new System.Drawing.Point(513, 9);
             this.lblFileStatus.Name = "lblFileStatus";
             this.lblFileStatus.Size = new System.Drawing.Size(29, 13);
             this.lblFileStatus.TabIndex = 1;
@@ -55,10 +58,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(554, 394);
+            this.ClientSize = new System.Drawing.Size(554, 538);
             this.Controls.Add(this.lblFileStatus);
             this.Controls.Add(this.dataGridView1);
             this.Name = "Form3";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form3";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form3_FormClosed);
             this.Load += new System.EventHandler(this.Form3_Load);

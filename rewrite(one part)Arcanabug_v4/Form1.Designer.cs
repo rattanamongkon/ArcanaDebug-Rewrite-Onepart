@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlPort = new System.Windows.Forms.Panel();
             this.comboPort = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -37,6 +38,9 @@
             this.tbKey = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlEncrypt = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.pnlResponse = new System.Windows.Forms.Panel();
             this.chkRandom = new System.Windows.Forms.CheckBox();
@@ -70,37 +74,48 @@
             this.tbRan3 = new System.Windows.Forms.TextBox();
             this.tbRan2 = new System.Windows.Forms.TextBox();
             this.tbRan1 = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.button1 = new System.Windows.Forms.Button();
+            this.pnlGridview = new System.Windows.Forms.Panel();
+            this.btSave = new System.Windows.Forms.Button();
+            this.dgrDatabase = new System.Windows.Forms.DataGridView();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboSremark = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbSkey = new System.Windows.Forms.TextBox();
+            this.tbSsend = new System.Windows.Forms.TextBox();
+            this.btSaveCSV = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pnlPort.SuspendLayout();
             this.pnlKey.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPnlKey)).BeginInit();
             this.pnlEncrypt.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.pnlResponse.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPnlResponse)).BeginInit();
             this.pnlSetRan.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.pnlGridview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgrDatabase)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlPort
             // 
             this.pnlPort.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlPort.Controls.Add(this.button1);
             this.pnlPort.Controls.Add(this.comboPort);
             this.pnlPort.Controls.Add(this.label1);
             this.pnlPort.Location = new System.Drawing.Point(12, 12);
             this.pnlPort.Name = "pnlPort";
-            this.pnlPort.Size = new System.Drawing.Size(144, 75);
+            this.pnlPort.Size = new System.Drawing.Size(120, 75);
             this.pnlPort.TabIndex = 0;
             // 
             // comboPort
             // 
             this.comboPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPort.FormattingEnabled = true;
-            this.comboPort.Location = new System.Drawing.Point(29, 41);
+            this.comboPort.Location = new System.Drawing.Point(17, 42);
             this.comboPort.Name = "comboPort";
             this.comboPort.Size = new System.Drawing.Size(88, 21);
             this.comboPort.TabIndex = 1;
@@ -110,7 +125,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(54, 14);
+            this.label1.Location = new System.Drawing.Point(44, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 17);
             this.label1.TabIndex = 0;
@@ -122,9 +137,9 @@
             this.pnlKey.Controls.Add(this.btPnlKey);
             this.pnlKey.Controls.Add(this.tbKey);
             this.pnlKey.Controls.Add(this.label2);
-            this.pnlKey.Location = new System.Drawing.Point(162, 12);
+            this.pnlKey.Location = new System.Drawing.Point(138, 12);
             this.pnlKey.Name = "pnlKey";
-            this.pnlKey.Size = new System.Drawing.Size(455, 75);
+            this.pnlKey.Size = new System.Drawing.Size(339, 75);
             this.pnlKey.TabIndex = 1;
             // 
             // btPnlKey
@@ -132,7 +147,7 @@
             this.btPnlKey.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btPnlKey.Enabled = false;
             this.btPnlKey.Image = global::rewrite_one_part_Arcanabug_v4.Properties.Resources.success_next_button;
-            this.btPnlKey.Location = new System.Drawing.Point(412, 32);
+            this.btPnlKey.Location = new System.Drawing.Point(294, 30);
             this.btPnlKey.Name = "btPnlKey";
             this.btPnlKey.Size = new System.Drawing.Size(40, 40);
             this.btPnlKey.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -144,17 +159,18 @@
             // 
             this.tbKey.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbKey.Location = new System.Drawing.Point(3, 42);
+            this.tbKey.Location = new System.Drawing.Point(4, 42);
             this.tbKey.MaxLength = 20;
             this.tbKey.Name = "tbKey";
-            this.tbKey.Size = new System.Drawing.Size(403, 30);
+            this.tbKey.Size = new System.Drawing.Size(284, 30);
             this.tbKey.TabIndex = 1;
+            this.tbKey.Text = "0123456789ABCDEF0123";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(143, 14);
+            this.label2.Location = new System.Drawing.Point(96, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(123, 25);
             this.label2.TabIndex = 0;
@@ -163,18 +179,58 @@
             // pnlEncrypt
             // 
             this.pnlEncrypt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlEncrypt.Controls.Add(this.groupBox1);
             this.pnlEncrypt.Controls.Add(this.label4);
             this.pnlEncrypt.Enabled = false;
-            this.pnlEncrypt.Location = new System.Drawing.Point(12, 93);
+            this.pnlEncrypt.Location = new System.Drawing.Point(483, 12);
             this.pnlEncrypt.Name = "pnlEncrypt";
-            this.pnlEncrypt.Size = new System.Drawing.Size(605, 66);
+            this.pnlEncrypt.Size = new System.Drawing.Size(231, 75);
             this.pnlEncrypt.TabIndex = 2;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.radioButton2);
+            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Enabled = false;
+            this.groupBox1.Location = new System.Drawing.Point(72, 9);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(154, 56);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Checked = true;
+            this.radioButton2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton2.Location = new System.Drawing.Point(6, 19);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(68, 24);
+            this.radioButton2.TabIndex = 1;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "80 Bit";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.Click += new System.EventHandler(this.radioButton2_Click);
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioButton1.Location = new System.Drawing.Point(80, 19);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(68, 24);
+            this.radioButton1.TabIndex = 0;
+            this.radioButton1.Text = "40 Bit";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.Click += new System.EventHandler(this.radioButton1_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(105, 29);
+            this.label4.Location = new System.Drawing.Point(3, 30);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 20);
             this.label4.TabIndex = 0;
@@ -183,6 +239,7 @@
             // pnlResponse
             // 
             this.pnlResponse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlResponse.Controls.Add(this.pictureBox1);
             this.pnlResponse.Controls.Add(this.chkRandom);
             this.pnlResponse.Controls.Add(this.btLoadCSV);
             this.pnlResponse.Controls.Add(this.tbTrimes);
@@ -193,15 +250,15 @@
             this.pnlResponse.Controls.Add(this.label3);
             this.pnlResponse.Controls.Add(this.pnlSetRan);
             this.pnlResponse.Enabled = false;
-            this.pnlResponse.Location = new System.Drawing.Point(12, 165);
+            this.pnlResponse.Location = new System.Drawing.Point(12, 93);
             this.pnlResponse.Name = "pnlResponse";
-            this.pnlResponse.Size = new System.Drawing.Size(605, 223);
+            this.pnlResponse.Size = new System.Drawing.Size(702, 223);
             this.pnlResponse.TabIndex = 3;
             // 
             // chkRandom
             // 
             this.chkRandom.AutoSize = true;
-            this.chkRandom.Location = new System.Drawing.Point(171, 122);
+            this.chkRandom.Location = new System.Drawing.Point(217, 121);
             this.chkRandom.Name = "chkRandom";
             this.chkRandom.Size = new System.Drawing.Size(66, 17);
             this.chkRandom.TabIndex = 9;
@@ -211,7 +268,7 @@
             // 
             // btLoadCSV
             // 
-            this.btLoadCSV.Location = new System.Drawing.Point(481, 118);
+            this.btLoadCSV.Location = new System.Drawing.Point(527, 117);
             this.btLoadCSV.Name = "btLoadCSV";
             this.btLoadCSV.Size = new System.Drawing.Size(60, 20);
             this.btLoadCSV.TabIndex = 7;
@@ -221,7 +278,7 @@
             // 
             // tbTrimes
             // 
-            this.tbTrimes.Location = new System.Drawing.Point(117, 119);
+            this.tbTrimes.Location = new System.Drawing.Point(163, 118);
             this.tbTrimes.Name = "tbTrimes";
             this.tbTrimes.Size = new System.Drawing.Size(48, 20);
             this.tbTrimes.TabIndex = 6;
@@ -230,7 +287,7 @@
             // 
             this.tbData.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbData.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbData.Location = new System.Drawing.Point(117, 83);
+            this.tbData.Location = new System.Drawing.Point(163, 82);
             this.tbData.Name = "tbData";
             this.tbData.Size = new System.Drawing.Size(424, 30);
             this.tbData.TabIndex = 5;
@@ -239,7 +296,7 @@
             // 
             this.btPnlResponse.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btPnlResponse.Image = global::rewrite_one_part_Arcanabug_v4.Properties.Resources.success_next_button;
-            this.btPnlResponse.Location = new System.Drawing.Point(298, 168);
+            this.btPnlResponse.Location = new System.Drawing.Point(344, 167);
             this.btPnlResponse.Name = "btPnlResponse";
             this.btPnlResponse.Size = new System.Drawing.Size(50, 50);
             this.btPnlResponse.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -251,7 +308,7 @@
             // 
             this.tbCommand.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbCommand.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbCommand.Location = new System.Drawing.Point(65, 83);
+            this.tbCommand.Location = new System.Drawing.Point(111, 82);
             this.tbCommand.MaxLength = 2;
             this.tbCommand.Name = "tbCommand";
             this.tbCommand.Size = new System.Drawing.Size(46, 30);
@@ -262,7 +319,7 @@
             this.tbResponse.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbResponse.Enabled = false;
             this.tbResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbResponse.Location = new System.Drawing.Point(149, 47);
+            this.tbResponse.Location = new System.Drawing.Point(195, 46);
             this.tbResponse.Name = "tbResponse";
             this.tbResponse.Size = new System.Drawing.Size(364, 30);
             this.tbResponse.TabIndex = 3;
@@ -271,7 +328,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(273, 12);
+            this.label3.Location = new System.Drawing.Point(319, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 25);
             this.label3.TabIndex = 2;
@@ -506,67 +563,152 @@
             this.tbRan1.Size = new System.Drawing.Size(17, 20);
             this.tbRan1.TabIndex = 20;
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Enabled = false;
-            this.groupBox1.Location = new System.Drawing.Point(221, 96);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(223, 60);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = true;
-            this.radioButton2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.radioButton2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2.Location = new System.Drawing.Point(31, 25);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(68, 24);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "80 Bit";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.Click += new System.EventHandler(this.radioButton2_Click);
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.Location = new System.Drawing.Point(122, 25);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(68, 24);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.Text = "40 Bit";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.Click += new System.EventHandler(this.radioButton1_Click);
-            // 
             // serialPort1
             // 
             this.serialPort1.BaudRate = 115200;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // button1
+            // pnlGridview
             // 
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(24, 23);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "F";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.pnlGridview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlGridview.Controls.Add(this.btSave);
+            this.pnlGridview.Controls.Add(this.dgrDatabase);
+            this.pnlGridview.Controls.Add(this.groupBox2);
+            this.pnlGridview.Controls.Add(this.btSaveCSV);
+            this.pnlGridview.Location = new System.Drawing.Point(12, 322);
+            this.pnlGridview.Name = "pnlGridview";
+            this.pnlGridview.Size = new System.Drawing.Size(702, 366);
+            this.pnlGridview.TabIndex = 4;
+            // 
+            // btSave
+            // 
+            this.btSave.Location = new System.Drawing.Point(495, 19);
+            this.btSave.Name = "btSave";
+            this.btSave.Size = new System.Drawing.Size(109, 23);
+            this.btSave.TabIndex = 18;
+            this.btSave.Text = "Save to Database";
+            this.btSave.UseVisualStyleBackColor = true;
+            this.btSave.Click += new System.EventHandler(this.btSave_Click);
+            // 
+            // dgrDatabase
+            // 
+            this.dgrDatabase.AllowUserToAddRows = false;
+            this.dgrDatabase.AllowUserToDeleteRows = false;
+            this.dgrDatabase.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgrDatabase.Location = new System.Drawing.Point(3, 57);
+            this.dgrDatabase.Name = "dgrDatabase";
+            this.dgrDatabase.ReadOnly = true;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgrDatabase.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgrDatabase.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgrDatabase.Size = new System.Drawing.Size(694, 304);
+            this.dgrDatabase.TabIndex = 17;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.comboSremark);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.tbSkey);
+            this.groupBox2.Controls.Add(this.tbSsend);
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(486, 48);
+            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Filter";
+            // 
+            // comboSremark
+            // 
+            this.comboSremark.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboSremark.FormattingEnabled = true;
+            this.comboSremark.Items.AddRange(new object[] {
+            "",
+            "random",
+            "load .CSV",
+            "one command",
+            "set key",
+            "encrypt80",
+            "encrypt40"});
+            this.comboSremark.Location = new System.Drawing.Point(374, 18);
+            this.comboSremark.Name = "comboSremark";
+            this.comboSremark.Size = new System.Drawing.Size(101, 21);
+            this.comboSremark.TabIndex = 12;
+            this.comboSremark.SelectedIndexChanged += new System.EventHandler(this.comboSremark_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(324, 21);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(44, 13);
+            this.label7.TabIndex = 11;
+            this.label7.Text = "Remark";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(14, 21);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(25, 13);
+            this.label8.TabIndex = 6;
+            this.label8.Text = "Key";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(154, 21);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(58, 13);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Data Send";
+            // 
+            // tbSkey
+            // 
+            this.tbSkey.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbSkey.Location = new System.Drawing.Point(45, 18);
+            this.tbSkey.Name = "tbSkey";
+            this.tbSkey.Size = new System.Drawing.Size(100, 20);
+            this.tbSkey.TabIndex = 7;
+            this.tbSkey.TextChanged += new System.EventHandler(this.tbSkey_TextChanged);
+            // 
+            // tbSsend
+            // 
+            this.tbSsend.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbSsend.Location = new System.Drawing.Point(218, 18);
+            this.tbSsend.Name = "tbSsend";
+            this.tbSsend.Size = new System.Drawing.Size(100, 20);
+            this.tbSsend.TabIndex = 8;
+            this.tbSsend.TextChanged += new System.EventHandler(this.tbSsend_TextChanged);
+            // 
+            // btSaveCSV
+            // 
+            this.btSaveCSV.Location = new System.Drawing.Point(610, 19);
+            this.btSaveCSV.Name = "btSaveCSV";
+            this.btSaveCSV.Size = new System.Drawing.Size(87, 23);
+            this.btSaveCSV.TabIndex = 15;
+            this.btSaveCSV.Text = "Save to .CSV";
+            this.btSaveCSV.UseVisualStyleBackColor = true;
+            this.btSaveCSV.Click += new System.EventHandler(this.btSaveCSV_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::rewrite_one_part_Arcanabug_v4.Properties.Resources.ajax_loader;
+            this.pictureBox1.Location = new System.Drawing.Point(344, 167);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 11;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 400);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(729, 700);
+            this.Controls.Add(this.pnlGridview);
             this.Controls.Add(this.pnlResponse);
             this.Controls.Add(this.pnlEncrypt);
             this.Controls.Add(this.pnlKey);
@@ -574,6 +716,7 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Rewrite(1part) ArcanaDebug";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.pnlPort.ResumeLayout(false);
@@ -583,13 +726,18 @@
             ((System.ComponentModel.ISupportInitialize)(this.btPnlKey)).EndInit();
             this.pnlEncrypt.ResumeLayout(false);
             this.pnlEncrypt.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.pnlResponse.ResumeLayout(false);
             this.pnlResponse.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPnlResponse)).EndInit();
             this.pnlSetRan.ResumeLayout(false);
             this.pnlSetRan.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.pnlGridview.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgrDatabase)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -641,7 +789,18 @@
         private System.Windows.Forms.CheckBox chkRandom;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel pnlGridview;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.ComboBox comboSremark;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbSkey;
+        private System.Windows.Forms.TextBox tbSsend;
+        private System.Windows.Forms.Button btSaveCSV;
+        private System.Windows.Forms.DataGridView dgrDatabase;
+        private System.Windows.Forms.Button btSave;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

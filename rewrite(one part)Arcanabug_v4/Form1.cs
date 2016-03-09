@@ -10,8 +10,6 @@ using System.IO;
 using System.IO.Ports;
 using System.Data.SqlClient;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Threading;
 
 namespace rewrite_one_part_Arcanabug_v4
 {
@@ -323,6 +321,7 @@ namespace rewrite_one_part_Arcanabug_v4
                     MessageBox.Show("!--Save to Database Success--!");
                     loadDB();
                     statuuSaveDB = true;
+                    btSave.Text = "Save to Database";
                 }
             }
             catch (Exception er)
@@ -368,17 +367,24 @@ namespace rewrite_one_part_Arcanabug_v4
 
         private void tbSkey_TextChanged(object sender, EventArgs e)
         {
-            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text);
+            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%' AND datetime LIKE '%{3}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text, dateTimePicker1.Text);
         }
 
         private void tbSsend_TextChanged(object sender, EventArgs e)
         {
-            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text);
+            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%' AND datetime LIKE '%{3}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text, dateTimePicker1.Text);
         }
 
         private void comboSremark_SelectedIndexChanged(object sender, EventArgs e)
         {
-            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text);
+            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%' AND datetime LIKE '%{3}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text, dateTimePicker1.Text);
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%' AND datetime LIKE '%{3}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text, dateTimePicker1.Text);
+            //(dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("datetime = '{0}'", dateTimePicker1.Value.ToShortDateString());
+            //label11.Text = dateTimePicker1.Text;
         }
 
         private void btSaveCSV_Click(object sender, EventArgs e)
@@ -389,6 +395,56 @@ namespace rewrite_one_part_Arcanabug_v4
             {
                 string filename = sfdl.FileName;
                 writeCSV(dgrDatabase, filename);
+            }
+        }
+
+        private void tbKey_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+            if (!OnlyHexInString(ch.ToString()) && ch != 8)
+            {
+                MessageBox.Show("Please enter HEXIMAL type");
+                e.Handled = true;
+            }
+        }
+
+        private void tbCommand_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+            if (!OnlyHexInString(ch.ToString()) && ch != 8)
+            {
+                MessageBox.Show("Please enter HEXIMAL type");
+                e.Handled = true;
+            }
+        }
+
+        private void tbData_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+            if (!OnlyHexInString(ch.ToString()) && ch != 8)
+            {
+                MessageBox.Show("Please enter HEXIMAL type");
+                e.Handled = true;
+            }
+        }
+
+        private void tbSsend_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+            if (!OnlyHexInString(ch.ToString()) && ch != 8 && ch != 32)
+            {
+                MessageBox.Show("Please enter HEXIMAL type");
+                e.Handled = true;
+            }
+        }
+
+        private void tbSkey_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+            if (!OnlyHexInString(ch.ToString()) && ch != 8 && ch != 32)
+            {
+                MessageBox.Show("Please enter HEXIMAL type");
+                e.Handled = true;
             }
         }
 
@@ -425,6 +481,7 @@ namespace rewrite_one_part_Arcanabug_v4
         private void workingThread(string mode)
         {
             statuswork = false;
+            btSave.Text = "Save to Database*";
             if (mode == "random")
             {
                 workThread = new Thread(new ThreadStart(sendingRandom));
@@ -486,12 +543,15 @@ namespace rewrite_one_part_Arcanabug_v4
                 //update data gridview
                 dgrDatabase.DataSource = ds.Tables["tblArcana"];
                 //set below scrollbar
-                dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0];
+                //dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0];
                 //sort new data on top
-                //dgrDatabase.Sort(dgrDatabase.Columns[0], ListSortDirection.Descending);
-                //set top scrollbar
-                //dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[0].Cells[0];
-                //dgrDatabase.Refresh();
+                if (dgrDatabase.RowCount > 0)
+                {
+                    dgrDatabase.Sort(dgrDatabase.Columns[0], ListSortDirection.Descending);
+                    //set top scrollbar
+                    dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[0].Cells[0];
+                    //dgrDatabase.Refresh();
+                }
             }
             catch (Exception e)
             {
@@ -588,121 +648,6 @@ namespace rewrite_one_part_Arcanabug_v4
             statuswork = true;
             workThread.Abort();
         }
-
-        //bgWorking
-        //BackgroundWorker bgWorker;
-        //ProgressDlg progressDlg;
-        //private void working()
-        //{
-        //    // New BackgroundWorker
-        //    bgWorker = new BackgroundWorker();
-        //    bgWorker.WorkerReportsProgress = true;
-        //    bgWorker.WorkerSupportsCancellation = true;
-        //    bgWorker.DoWork += new DoWorkEventHandler(bgWorker_DoWork);
-        //    bgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgWorker_RunWorkerCompleted);
-        //    bgWorker.ProgressChanged += new ProgressChangedEventHandler(bgWorker_ProgressChanged);
-
-        //    // Start the asynchronous operation.
-        //    bgWorker.RunWorkerAsync();
-
-        //    // New Dialog
-        //    progressDlg = new ProgressDlg();
-        //    progressDlg.stopProgress = new EventHandler((s, e1) =>
-        //    {
-        //        switch (progressDlg.DialogResult)
-        //        {
-        //            // When click stop button from Progress Dialog
-        //            case DialogResult.Cancel:
-        //                bgWorker.CancelAsync();
-        //                progressDlg.Close();
-        //                break;
-        //        }
-        //    });
-        //    progressDlg.ShowDialog();
-
-        //}
-
-        //// ### work Status ###
-        //// 0 = setkey
-        //// 1 = encrypt40
-        //// 2 = encrypt80
-        //// 3 = one command
-        //// 4 = random
-        //// 5 = loadCSV
-        //int workStatus;
-        //private void bgWorker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    BackgroundWorker worker = sender as BackgroundWorker;
-
-        //    if (workStatus == 0)
-        //    {
-        //        setting80bitKey();
-        //        worker.ReportProgress(100);
-        //    } else if (workStatus == 1)
-        //    {
-        //        encrypt40();
-        //        worker.ReportProgress(100);
-        //    } else if (workStatus == 2)
-        //    {
-        //        encrypt80();
-        //        worker.ReportProgress(100);
-        //    } else if (workStatus == 3)
-        //    {
-        //        sendingOneCommand();
-        //        worker.ReportProgress(100);
-        //    } else if (workStatus == 4)
-        //    {
-        //        sendingRandom();
-        //        worker.ReportProgress(100);
-        //    } else if (workStatus == 5)
-        //    {
-        //        loadingCSV();
-        //        worker.ReportProgress(100);
-        //    }
-
-        //}
-
-        //// This event handler updates the progress.
-        //private void bgWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    f2.lblstatus.Text = "Processing...";
-
-        //    // Update status to Dialog
-        //    progressDlg.Message = (e.ProgressPercentage.ToString() + "%");
-        //    progressDlg.ProgressValue = e.ProgressPercentage;
-
-        //    tbData.Text = rxData;
-        //    tbResponse.Text = strResponse(curval);
-        //    //patcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
-        //    //{
-        //        f2.dataGridView1.DataSource = ds.Tables["tblArcana"];
-        //    //}));
-
-        //    if (f2.statusForm.Text != "false")
-        //    {
-        //        // set below scorllbar (1hr in search hahaha )
-        //        f2.dataGridView1.FirstDisplayedCell = f2.dataGridView1.Rows[f2.dataGridView1.Rows.Count - 1].Cells[0];
-        //    }
-        //}
-
-        //// This event handler deals with the results of the background operation.
-        //private void bgWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    if (e.Cancelled == true)
-        //    {
-        //        f2.lblstatus.Text = "Canceled!";
-        //    }
-        //    else if (e.Error != null)
-        //    {
-        //        f2.lblstatus.Text = "Error: " + e.Error.Message;
-        //    }
-        //    else
-        //    {
-        //        f2.lblstatus.Text = "Done!";
-        //    }
-        //    progressDlg.Close();
-        //}
-        //---------------------------------------------------------------------------------------------//
 
         private void set80bitKey(string rxDataKey)
         {
@@ -1144,8 +1089,10 @@ namespace rewrite_one_part_Arcanabug_v4
                 //string sql = "SELECT * FROM tblArcana";
                 //SqlDataAdapter da = new SqlDataAdapter(sql, cn);
                 //da.Fill(ds, "tblArcana");
-
+                
                 DataRow dr = ds.Tables["tblArcana"].NewRow();
+                index++;
+                dr["id"] = index;
                 dr["datetime"] = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
                 dr["send"] = send.ToUpper();
                 dr["recive"] = recive.ToUpper();
@@ -1166,6 +1113,7 @@ namespace rewrite_one_part_Arcanabug_v4
             }
         }
 
+        int index;
         private void loadDB()
         {
             con.Open();
@@ -1183,8 +1131,8 @@ namespace rewrite_one_part_Arcanabug_v4
             // id
             dgrDatabase.Columns[0].Width = 40;
             // datetime
-            dgrDatabase.Columns[1].Width = 80;
-            dgrDatabase.Columns[1].DefaultCellStyle.Format = "dd/MM/yyyy HH:MM:ssss";
+            dgrDatabase.Columns[1].Width = 70;
+            //dgrDatabase.Columns[1].DefaultCellStyle.Format = "MM/dd/yyyy";
             // send
             dgrDatabase.Columns[2].Width = 150;
             // recive
@@ -1198,9 +1146,13 @@ namespace rewrite_one_part_Arcanabug_v4
             // raw_remark
             dgrDatabase.Columns[7].Width = 100;
 
+            if (dgrDatabase.RowCount  > 0)
+            {
+                index = Int32.Parse(dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0].Value.ToString());
+            }
             //set below scorllbar
-            dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0];
-            //dgrDatabase.Sort(dgrDatabase.Columns[0], ListSortDirection.Descending);
+            //dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0];
+            dgrDatabase.Sort(dgrDatabase.Columns[0], ListSortDirection.Descending);
             con.Close();
         }
 
@@ -1265,5 +1217,11 @@ namespace rewrite_one_part_Arcanabug_v4
 
         }
 
+        //Check Hex string
+        private bool OnlyHexInString(string test)
+        {
+            // For C-style hex notation (0xFF) you can use @"\A\b(0[xX])?[0-9a-fA-F]+\b\Z"
+            return System.Text.RegularExpressions.Regex.IsMatch(test, @"\A\b[0-9a-fA-F]+\b\Z");
+        }
     }
 }

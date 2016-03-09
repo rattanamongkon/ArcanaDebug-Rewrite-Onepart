@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlPort = new System.Windows.Forms.Panel();
             this.comboPort = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,6 +43,7 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label4 = new System.Windows.Forms.Label();
             this.pnlResponse = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.chkRandom = new System.Windows.Forms.CheckBox();
             this.btLoadCSV = new System.Windows.Forms.Button();
             this.tbTrimes = new System.Windows.Forms.TextBox();
@@ -79,6 +80,7 @@
             this.btSave = new System.Windows.Forms.Button();
             this.dgrDatabase = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.comboSremark = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -86,19 +88,20 @@
             this.tbSkey = new System.Windows.Forms.TextBox();
             this.tbSsend = new System.Windows.Forms.TextBox();
             this.btSaveCSV = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label11 = new System.Windows.Forms.Label();
             this.pnlPort.SuspendLayout();
             this.pnlKey.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPnlKey)).BeginInit();
             this.pnlEncrypt.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.pnlResponse.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btPnlResponse)).BeginInit();
             this.pnlSetRan.SuspendLayout();
             this.pnlGridview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgrDatabase)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlPort
@@ -158,13 +161,14 @@
             // tbKey
             // 
             this.tbKey.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.tbKey.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbKey.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbKey.Location = new System.Drawing.Point(4, 42);
             this.tbKey.MaxLength = 20;
             this.tbKey.Name = "tbKey";
             this.tbKey.Size = new System.Drawing.Size(284, 30);
             this.tbKey.TabIndex = 1;
             this.tbKey.Text = "0123456789ABCDEF0123";
+            this.tbKey.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbKey_KeyPress);
             // 
             // label2
             // 
@@ -239,6 +243,7 @@
             // pnlResponse
             // 
             this.pnlResponse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlResponse.Controls.Add(this.label11);
             this.pnlResponse.Controls.Add(this.pictureBox1);
             this.pnlResponse.Controls.Add(this.chkRandom);
             this.pnlResponse.Controls.Add(this.btLoadCSV);
@@ -254,6 +259,17 @@
             this.pnlResponse.Name = "pnlResponse";
             this.pnlResponse.Size = new System.Drawing.Size(702, 223);
             this.pnlResponse.TabIndex = 3;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::rewrite_one_part_Arcanabug_v4.Properties.Resources.ajax_loader;
+            this.pictureBox1.Location = new System.Drawing.Point(344, 167);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 11;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Visible = false;
             // 
             // chkRandom
             // 
@@ -278,6 +294,7 @@
             // 
             // tbTrimes
             // 
+            this.tbTrimes.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbTrimes.Location = new System.Drawing.Point(163, 118);
             this.tbTrimes.Name = "tbTrimes";
             this.tbTrimes.Size = new System.Drawing.Size(48, 20);
@@ -286,11 +303,12 @@
             // tbData
             // 
             this.tbData.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.tbData.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbData.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbData.Location = new System.Drawing.Point(163, 82);
             this.tbData.Name = "tbData";
             this.tbData.Size = new System.Drawing.Size(424, 30);
             this.tbData.TabIndex = 5;
+            this.tbData.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbData_KeyPress);
             // 
             // btPnlResponse
             // 
@@ -307,18 +325,19 @@
             // tbCommand
             // 
             this.tbCommand.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.tbCommand.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbCommand.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbCommand.Location = new System.Drawing.Point(111, 82);
             this.tbCommand.MaxLength = 2;
             this.tbCommand.Name = "tbCommand";
             this.tbCommand.Size = new System.Drawing.Size(46, 30);
             this.tbCommand.TabIndex = 4;
+            this.tbCommand.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbCommand_KeyPress);
             // 
             // tbResponse
             // 
             this.tbResponse.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.tbResponse.Enabled = false;
-            this.tbResponse.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbResponse.Font = new System.Drawing.Font("Courier New", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbResponse.Location = new System.Drawing.Point(195, 46);
             this.tbResponse.Name = "tbResponse";
             this.tbResponse.Size = new System.Drawing.Size(364, 30);
@@ -476,6 +495,7 @@
             // tbRan10
             // 
             this.tbRan10.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan10.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan10.Location = new System.Drawing.Point(264, 12);
             this.tbRan10.MaxLength = 1;
             this.tbRan10.Name = "tbRan10";
@@ -485,6 +505,7 @@
             // tbRan9
             // 
             this.tbRan9.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan9.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan9.Location = new System.Drawing.Point(246, 12);
             this.tbRan9.MaxLength = 1;
             this.tbRan9.Name = "tbRan9";
@@ -494,6 +515,7 @@
             // tbRan8
             // 
             this.tbRan8.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan8.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan8.Location = new System.Drawing.Point(209, 12);
             this.tbRan8.MaxLength = 1;
             this.tbRan8.Name = "tbRan8";
@@ -503,6 +525,7 @@
             // tbRan7
             // 
             this.tbRan7.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan7.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan7.Location = new System.Drawing.Point(191, 12);
             this.tbRan7.MaxLength = 1;
             this.tbRan7.Name = "tbRan7";
@@ -512,6 +535,7 @@
             // tbRan6
             // 
             this.tbRan6.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan6.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan6.Location = new System.Drawing.Point(152, 12);
             this.tbRan6.MaxLength = 1;
             this.tbRan6.Name = "tbRan6";
@@ -521,6 +545,7 @@
             // tbRan5
             // 
             this.tbRan5.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan5.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan5.Location = new System.Drawing.Point(134, 12);
             this.tbRan5.MaxLength = 1;
             this.tbRan5.Name = "tbRan5";
@@ -530,6 +555,7 @@
             // tbRan4
             // 
             this.tbRan4.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan4.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan4.Location = new System.Drawing.Point(98, 12);
             this.tbRan4.MaxLength = 1;
             this.tbRan4.Name = "tbRan4";
@@ -539,6 +565,7 @@
             // tbRan3
             // 
             this.tbRan3.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan3.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan3.Location = new System.Drawing.Point(80, 12);
             this.tbRan3.MaxLength = 1;
             this.tbRan3.Name = "tbRan3";
@@ -548,6 +575,7 @@
             // tbRan2
             // 
             this.tbRan2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan2.Location = new System.Drawing.Point(45, 12);
             this.tbRan2.MaxLength = 1;
             this.tbRan2.Name = "tbRan2";
@@ -557,6 +585,7 @@
             // tbRan1
             // 
             this.tbRan1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.tbRan1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbRan1.Location = new System.Drawing.Point(27, 12);
             this.tbRan1.MaxLength = 1;
             this.tbRan1.Name = "tbRan1";
@@ -582,9 +611,9 @@
             // 
             // btSave
             // 
-            this.btSave.Location = new System.Drawing.Point(495, 19);
+            this.btSave.Location = new System.Drawing.Point(591, 35);
             this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(109, 23);
+            this.btSave.Size = new System.Drawing.Size(106, 23);
             this.btSave.TabIndex = 18;
             this.btSave.Text = "Save to Database";
             this.btSave.UseVisualStyleBackColor = true;
@@ -595,17 +624,19 @@
             this.dgrDatabase.AllowUserToAddRows = false;
             this.dgrDatabase.AllowUserToDeleteRows = false;
             this.dgrDatabase.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgrDatabase.Location = new System.Drawing.Point(3, 57);
+            this.dgrDatabase.Location = new System.Drawing.Point(3, 71);
             this.dgrDatabase.Name = "dgrDatabase";
             this.dgrDatabase.ReadOnly = true;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgrDatabase.RowsDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgrDatabase.RowsDefaultCellStyle = dataGridViewCellStyle16;
             this.dgrDatabase.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgrDatabase.Size = new System.Drawing.Size(694, 304);
+            this.dgrDatabase.Size = new System.Drawing.Size(694, 290);
             this.dgrDatabase.TabIndex = 17;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.dateTimePicker1);
+            this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.comboSremark);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label8);
@@ -614,10 +645,19 @@
             this.groupBox2.Controls.Add(this.tbSsend);
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(486, 48);
+            this.groupBox2.Size = new System.Drawing.Size(582, 62);
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filter";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(23, 12);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(30, 13);
+            this.label10.TabIndex = 13;
+            this.label10.Text = "Date";
             // 
             // comboSremark
             // 
@@ -631,16 +671,16 @@
             "set key",
             "encrypt80",
             "encrypt40"});
-            this.comboSremark.Location = new System.Drawing.Point(374, 18);
+            this.comboSremark.Location = new System.Drawing.Point(73, 35);
             this.comboSremark.Name = "comboSremark";
-            this.comboSremark.Size = new System.Drawing.Size(101, 21);
+            this.comboSremark.Size = new System.Drawing.Size(95, 21);
             this.comboSremark.TabIndex = 12;
             this.comboSremark.SelectedIndexChanged += new System.EventHandler(this.comboSremark_SelectedIndexChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(324, 21);
+            this.label7.Location = new System.Drawing.Point(23, 38);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(44, 13);
             this.label7.TabIndex = 11;
@@ -649,7 +689,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(14, 21);
+            this.label8.Location = new System.Drawing.Point(186, 38);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(25, 13);
             this.label8.TabIndex = 6;
@@ -658,7 +698,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(154, 21);
+            this.label9.Location = new System.Drawing.Point(186, 12);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(58, 13);
             this.label9.TabIndex = 9;
@@ -667,41 +707,54 @@
             // tbSkey
             // 
             this.tbSkey.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.tbSkey.Location = new System.Drawing.Point(45, 18);
+            this.tbSkey.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbSkey.Location = new System.Drawing.Point(250, 35);
             this.tbSkey.Name = "tbSkey";
-            this.tbSkey.Size = new System.Drawing.Size(100, 20);
+            this.tbSkey.Size = new System.Drawing.Size(199, 20);
             this.tbSkey.TabIndex = 7;
             this.tbSkey.TextChanged += new System.EventHandler(this.tbSkey_TextChanged);
+            this.tbSkey.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbSkey_KeyPress);
             // 
             // tbSsend
             // 
             this.tbSsend.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.tbSsend.Location = new System.Drawing.Point(218, 18);
+            this.tbSsend.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbSsend.Location = new System.Drawing.Point(250, 11);
             this.tbSsend.Name = "tbSsend";
-            this.tbSsend.Size = new System.Drawing.Size(100, 20);
+            this.tbSsend.Size = new System.Drawing.Size(199, 20);
             this.tbSsend.TabIndex = 8;
             this.tbSsend.TextChanged += new System.EventHandler(this.tbSsend_TextChanged);
+            this.tbSsend.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbSsend_KeyPress);
             // 
             // btSaveCSV
             // 
-            this.btSaveCSV.Location = new System.Drawing.Point(610, 19);
+            this.btSaveCSV.Location = new System.Drawing.Point(591, 9);
             this.btSaveCSV.Name = "btSaveCSV";
-            this.btSaveCSV.Size = new System.Drawing.Size(87, 23);
+            this.btSaveCSV.Size = new System.Drawing.Size(106, 23);
             this.btSaveCSV.TabIndex = 15;
             this.btSaveCSV.Text = "Save to .CSV";
             this.btSaveCSV.UseVisualStyleBackColor = true;
             this.btSaveCSV.Click += new System.EventHandler(this.btSaveCSV_Click);
             // 
-            // pictureBox1
+            // dateTimePicker1
             // 
-            this.pictureBox1.Image = global::rewrite_one_part_Arcanabug_v4.Properties.Resources.ajax_loader;
-            this.pictureBox1.Location = new System.Drawing.Point(344, 167);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(50, 50);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 11;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Visible = false;
+            this.dateTimePicker1.CustomFormat = "dd/MM/yyyy";
+            this.dateTimePicker1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker1.Location = new System.Drawing.Point(73, 9);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(95, 20);
+            this.dateTimePicker1.TabIndex = 16;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(467, 176);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 13);
+            this.label11.TabIndex = 12;
+            this.label11.Text = "label11";
             // 
             // Form1
             // 
@@ -730,6 +783,7 @@
             this.groupBox1.PerformLayout();
             this.pnlResponse.ResumeLayout(false);
             this.pnlResponse.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btPnlResponse)).EndInit();
             this.pnlSetRan.ResumeLayout(false);
             this.pnlSetRan.PerformLayout();
@@ -737,7 +791,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgrDatabase)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -801,6 +854,9 @@
         private System.Windows.Forms.DataGridView dgrDatabase;
         private System.Windows.Forms.Button btSave;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label label11;
     }
 }
 

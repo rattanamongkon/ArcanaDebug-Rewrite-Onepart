@@ -15,7 +15,7 @@ namespace rewrite_one_part_Arcanabug_v4
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new LoginDB());
         }
     }
 }

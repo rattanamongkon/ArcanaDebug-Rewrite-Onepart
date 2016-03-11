@@ -10,29 +10,33 @@ using System.IO;
 using System.IO.Ports;
 using System.Data.SqlClient;
 using System.Threading;
+using MySql.Data.MySqlClient;
 
 namespace rewrite_one_part_Arcanabug_v4
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        public Form1(string con)
         {
             InitializeComponent();
+            connetionString = con;
         }
-
+        string connetionString = string.Empty;
         DataSet ds = new DataSet();
-        SqlConnection con = new SqlConnection(@"Data Source = localhost\sqlexpress; Initial Catalog = ArcanaTestDB; User ID = sa; Password = 123456789");
+        //SqlConnection con = new SqlConnection(@"Data Source = localhost\sqlexpress; Initial Catalog = ArcanaTestDB; User ID = sa; Password = 123456789");
+        MySqlConnection con;
 
         //status save remark database
-        string sendDB = string.Empty;
-        string reciveDB = string.Empty;
-        string keyDB = string.Empty;
-        string rawsendDB = string.Empty;
-        string rawreciveDB = string.Empty;
-        string remarkDB = string.Empty;
+        private string sendDB = string.Empty;
+        private string reciveDB = string.Empty;
+        private string keyDB = string.Empty;
+        private string rawsendDB = string.Empty;
+        private string rawreciveDB = string.Empty;
+        private string remarkDB = string.Empty;
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            con = new MySqlConnection(connetionString);
             //add port to comboBox
             string[] arr = SerialPort.GetPortNames();
             for (int i = 0; i < arr.Length; i++)
@@ -73,10 +77,10 @@ namespace rewrite_one_part_Arcanabug_v4
                     workingThread("setkey80");
 
                     //check key
-                    MessageBox.Show("Setting 80bit key success");
+                    //MessageBox.Show("Setting 80bit key success");
                     pnlEncrypt.Enabled = true;
                     groupBox1.Enabled = true;
-                    pnlResponse.Enabled = true;
+                    pnlResponse.Enabled = true;                        
                 }
                 else if (!string.IsNullOrWhiteSpace(tbKey.Text) && tbKey.TextLength == 10)
                 {
@@ -85,7 +89,7 @@ namespace rewrite_one_part_Arcanabug_v4
                     workingThread("setkey40");
 
                     //check key
-                    MessageBox.Show("Setting 40bit key success");
+                    //MessageBox.Show("Setting 40bit key success");
                     pnlEncrypt.Enabled = true;
                     groupBox1.Enabled = true;
                     pnlResponse.Enabled = true;
@@ -178,6 +182,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 ConfigKey();
                 waitSend();
                 rawreciveDB = curval;
+                keyDB = "";
                 insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
                 UpdateTable(ds, rxData, curval);
             }
@@ -190,7 +195,10 @@ namespace rewrite_one_part_Arcanabug_v4
         {
             workingThread("encrypt40");
             statuswork = true;
-            MessageBox.Show("Encrypt 40 Bit");
+            if (!checkDataReciveChip(curval))
+                MessageBox.Show("Fail!! \nPlease try agin.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+                MessageBox.Show("Encrypt 40 Bit");
             workThread.Abort();
         }
 
@@ -206,6 +214,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 ConfigKey();
                 waitSend();
                 rawreciveDB = curval;
+                keyDB = "";
                 insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
                 UpdateTable(ds, rxData, curval);
             }
@@ -218,13 +227,17 @@ namespace rewrite_one_part_Arcanabug_v4
         {
             workingThread("encrypt80");
             statuswork = true;
-            MessageBox.Show("Encrypt 80 Bit");
+            if (!checkDataReciveChip(curval))
+                MessageBox.Show("Fail!! \nPlease try agin.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+                MessageBox.Show("Encrypt 80 Bit");
             workThread.Abort();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             serialPort1.Close();
+            Application.Exit();
         }
 
         int c = 1;
@@ -241,7 +254,7 @@ namespace rewrite_one_part_Arcanabug_v4
                 c = 1;
             }
         }
-
+        
         Form3 f3 = new Form3();
         private void btLoadCSV_Click(object sender, EventArgs e)
         {
@@ -309,12 +322,12 @@ namespace rewrite_one_part_Arcanabug_v4
                 if (!statuuSaveDB)
                 {
                     con.Open();
-                    SqlCommand cmd = con.CreateCommand();
+                    MySqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "SELECT * FROM tblArcana";
                     cmd.ExecuteNonQuery();
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    SqlCommandBuilder cb = new SqlCommandBuilder(da);
+                    MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                    MySqlCommandBuilder cb = new MySqlCommandBuilder(da);
                     da.Update(ds, "tblArcana");
                     con.Close();
 
@@ -340,12 +353,12 @@ namespace rewrite_one_part_Arcanabug_v4
                     if (result == DialogResult.Yes)
                     {
                         con.Open();
-                        SqlCommand cmd = con.CreateCommand();
+                        MySqlCommand cmd = con.CreateCommand();
                         cmd.CommandType = CommandType.Text;
                         cmd.CommandText = "SELECT * FROM tblArcana";
                         cmd.ExecuteNonQuery();
-                        SqlDataAdapter da = new SqlDataAdapter(cmd);
-                        SqlCommandBuilder cb = new SqlCommandBuilder(da);
+                        MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                        MySqlCommandBuilder cb = new MySqlCommandBuilder(da);
                         da.Update(ds, "tblArcana");
                         con.Close();
 
@@ -383,8 +396,6 @@ namespace rewrite_one_part_Arcanabug_v4
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
             (dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("keyconfig LIKE '%{0}%' AND send LIKE '%{1}%' AND remark LIKE '%{2}%' AND datetime LIKE '%{3}%'", tbSkey.Text, tbSsend.Text, comboSremark.Text, dateTimePicker1.Text);
-            //(dgrDatabase.DataSource as DataTable).DefaultView.RowFilter = string.Format("datetime = '{0}'", dateTimePicker1.Value.ToShortDateString());
-            //label11.Text = dateTimePicker1.Text;
         }
 
         private void btSaveCSV_Click(object sender, EventArgs e)
@@ -451,6 +462,8 @@ namespace rewrite_one_part_Arcanabug_v4
         //Recive reader
         string curval;
         string strBuffer;
+        //status recive data chip
+        bool statusRecive = true;
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (!serialPort1.IsOpen) return;
@@ -468,9 +481,15 @@ namespace rewrite_one_part_Arcanabug_v4
                 if (strBuffer.Length == 34)
                 {
                     strBuffer = string.Empty;
+                    statusRecive = true;
                 }
                 else
-                    strBuffer = strBuffer.Substring(34, strBuffer.Length - 34);
+                {
+                    //MessageBox.Show("Fail");
+                    strBuffer = string.Empty;
+                    statusRecive = false;
+                    //strBuffer = strBuffer.Substring(34, strBuffer.Length - 34);
+                }
                 reciveDB = strResponse(curval);
                 flg = 1;
             }
@@ -576,6 +595,8 @@ namespace rewrite_one_part_Arcanabug_v4
                 UpdateTable(ds, rxData, curval);
                 ///////////////////////////////////////
             }
+            if (!checkDataReciveChip(curval))
+                MessageBox.Show("Fail!! \nPlease try agin.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             statuswork = true;
             workThread.Abort();
         }
@@ -589,6 +610,8 @@ namespace rewrite_one_part_Arcanabug_v4
             insertDB(sendDB, reciveDB, keyDB, rawsendDB, rawreciveDB, remarkDB);
             UpdateTable(ds, rxData, curval);
             statuswork = true;
+            if (!checkDataReciveChip(curval))
+                MessageBox.Show("Fail!! \nPlease try agin.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             workThread.Abort();
         }
 
@@ -596,6 +619,10 @@ namespace rewrite_one_part_Arcanabug_v4
         {
             set80bitKey(tbKey.Text);
             statuswork = true;
+            if (!checkDataReciveChip(curval))
+                MessageBox.Show("Fail!! \nPlease try agin.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+                MessageBox.Show("Setting 80bit key success");
             workThread.Abort();
         }
 
@@ -603,6 +630,10 @@ namespace rewrite_one_part_Arcanabug_v4
         {
             set40bitKey(tbKey.Text);
             statuswork = true;
+            if (!checkDataReciveChip(curval))
+                MessageBox.Show("Fail!! \nPlease try agin.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+                MessageBox.Show("Setting 40bit key success");
             workThread.Abort();
         }
 
@@ -925,11 +956,17 @@ namespace rewrite_one_part_Arcanabug_v4
         {
             int NumberChars = hex.Length;
             byte[] bytes = new byte[(NumberChars / 2)];
-            for (int i = 0; i < NumberChars; i += 2)
+            try
             {
-                string sub = hex.Substring(i, 2);
-                //Console.Write(sub);
-                bytes[i / 2] = Convert.ToByte(sub, 16);
+                for (int i = 0; i < NumberChars; i += 2)
+                {
+                    string sub = hex.Substring(i, 2);
+                    //Console.Write(sub);
+                    bytes[i / 2] = Convert.ToByte(sub, 16);
+                }
+            } catch (Exception er)
+            {
+                MessageBox.Show("Data dose not format!! \n Please try agin.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             return bytes;
         }
@@ -1117,11 +1154,11 @@ namespace rewrite_one_part_Arcanabug_v4
         private void loadDB()
         {
             con.Open();
-            SqlCommand cmd = con.CreateCommand();
+            MySqlCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = "SELECT * FROM tblArcana";
             cmd.ExecuteNonQuery();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
             ds = new DataSet();
             da.Fill(ds, "tblArcana");
 
@@ -1222,6 +1259,17 @@ namespace rewrite_one_part_Arcanabug_v4
         {
             // For C-style hex notation (0xFF) you can use @"\A\b(0[xX])?[0-9a-fA-F]+\b\Z"
             return System.Text.RegularExpressions.Regex.IsMatch(test, @"\A\b[0-9a-fA-F]+\b\Z");
+        }
+        
+        //check data recive chip
+        private bool checkDataReciveChip(string curval)
+        {
+            char c1 = curval[6];
+            char c2 = curval[7];
+            if (c1 == '0' && c2 == '0')
+                return true;
+            else
+                return false;
         }
     }
 }

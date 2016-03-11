@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlPort = new System.Windows.Forms.Panel();
             this.comboPort = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -80,6 +80,7 @@
             this.btSave = new System.Windows.Forms.Button();
             this.dgrDatabase = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label10 = new System.Windows.Forms.Label();
             this.comboSremark = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -88,8 +89,6 @@
             this.tbSkey = new System.Windows.Forms.TextBox();
             this.tbSsend = new System.Windows.Forms.TextBox();
             this.btSaveCSV = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label11 = new System.Windows.Forms.Label();
             this.pnlPort.SuspendLayout();
             this.pnlKey.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btPnlKey)).BeginInit();
@@ -243,7 +242,6 @@
             // pnlResponse
             // 
             this.pnlResponse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlResponse.Controls.Add(this.label11);
             this.pnlResponse.Controls.Add(this.pictureBox1);
             this.pnlResponse.Controls.Add(this.chkRandom);
             this.pnlResponse.Controls.Add(this.btLoadCSV);
@@ -627,8 +625,8 @@
             this.dgrDatabase.Location = new System.Drawing.Point(3, 71);
             this.dgrDatabase.Name = "dgrDatabase";
             this.dgrDatabase.ReadOnly = true;
-            dataGridViewCellStyle16.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgrDatabase.RowsDefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgrDatabase.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgrDatabase.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgrDatabase.Size = new System.Drawing.Size(694, 290);
             this.dgrDatabase.TabIndex = 17;
@@ -649,6 +647,17 @@
             this.groupBox2.TabIndex = 16;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filter";
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.CustomFormat = "dd/MM/yyyy";
+            this.dateTimePicker1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateTimePicker1.Location = new System.Drawing.Point(73, 9);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(95, 20);
+            this.dateTimePicker1.TabIndex = 16;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // label10
             // 
@@ -735,26 +744,6 @@
             this.btSaveCSV.Text = "Save to .CSV";
             this.btSaveCSV.UseVisualStyleBackColor = true;
             this.btSaveCSV.Click += new System.EventHandler(this.btSaveCSV_Click);
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.CustomFormat = "dd/MM/yyyy";
-            this.dateTimePicker1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(73, 9);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(95, 20);
-            this.dateTimePicker1.TabIndex = 16;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(467, 176);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 13);
-            this.label11.TabIndex = 12;
-            this.label11.Text = "label11";
             // 
             // Form1
             // 
@@ -856,7 +845,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Label label11;
     }
 }
 

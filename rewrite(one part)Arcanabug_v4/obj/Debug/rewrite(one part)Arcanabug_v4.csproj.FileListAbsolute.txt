@@ -11,6 +11,6 @@ C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)A
 C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.application
 C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.exe.manifest
 C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.application
-C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.csprojResolveAssemblyReference.cache
 C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\MySql.Data.dll
 C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.LoginDB.resources
+C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.NameCreate.resources

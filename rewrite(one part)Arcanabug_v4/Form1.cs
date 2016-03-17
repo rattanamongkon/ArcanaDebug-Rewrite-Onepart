@@ -16,11 +16,13 @@ namespace rewrite_one_part_Arcanabug_v4
 {
     public partial class Form1 : Form
     {
-        public Form1(string con)
+        public Form1(string con, string xtable)
         {
             InitializeComponent();
             connetionString = con;
+            table = xtable;
         }
+        string table = string.Empty;
         string connetionString = string.Empty;
         DataSet ds = new DataSet();
         //SqlConnection con = new SqlConnection(@"Data Source = localhost\sqlexpress; Initial Catalog = ArcanaTestDB; User ID = sa; Password = 123456789");
@@ -324,7 +326,7 @@ namespace rewrite_one_part_Arcanabug_v4
                     con.Open();
                     MySqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT * FROM tblArcana";
+                    cmd.CommandText = "SELECT * FROM " + table;
                     cmd.ExecuteNonQuery();
                     MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                     MySqlCommandBuilder cb = new MySqlCommandBuilder(da);
@@ -355,7 +357,7 @@ namespace rewrite_one_part_Arcanabug_v4
                         con.Open();
                         MySqlCommand cmd = con.CreateCommand();
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = "SELECT * FROM tblArcana";
+                        cmd.CommandText = "SELECT * FROM " + table;
                         cmd.ExecuteNonQuery();
                         MySqlDataAdapter da = new MySqlDataAdapter(cmd);
                         MySqlCommandBuilder cb = new MySqlCommandBuilder(da);
@@ -363,7 +365,7 @@ namespace rewrite_one_part_Arcanabug_v4
                         con.Close();
 
                         MessageBox.Show("!--Save to Database Success--!");
-                        loadDB();
+                        //loadDB();
                         statuuSaveDB = true;
                     }
                     else if (result == DialogResult.Cancel)
@@ -531,6 +533,9 @@ namespace rewrite_one_part_Arcanabug_v4
             }
             statuuSaveDB = false;
             workThread.IsBackground = true;
+            pnlKey.Enabled = false;
+            pnlEncrypt.Enabled = false;
+            btLoadCSV.Enabled = false;
             workThread.Start();
         }
 
@@ -550,6 +555,9 @@ namespace rewrite_one_part_Arcanabug_v4
                 if (statuswork)
                 {
                     pictureBox1.Visible = false;
+                    pnlKey.Enabled = true;
+                    pnlEncrypt.Enabled = true;
+                    btLoadCSV.Enabled = true;
                 }
                 else
                 {
@@ -1153,44 +1161,50 @@ namespace rewrite_one_part_Arcanabug_v4
         int index;
         private void loadDB()
         {
-            con.Open();
-            MySqlCommand cmd = con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM tblArcana";
-            cmd.ExecuteNonQuery();
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            ds = new DataSet();
-            da.Fill(ds, "tblArcana");
-
-            dgrDatabase.DataSource = ds.Tables["tblArcana"];
-
-            // set width cell
-            // id
-            dgrDatabase.Columns[0].Width = 40;
-            // datetime
-            dgrDatabase.Columns[1].Width = 70;
-            //dgrDatabase.Columns[1].DefaultCellStyle.Format = "MM/dd/yyyy";
-            // send
-            dgrDatabase.Columns[2].Width = 150;
-            // recive
-            dgrDatabase.Columns[3].Width = 200;
-            // keyconfig
-            dgrDatabase.Columns[4].Width = 220;
-            // raw_send
-            dgrDatabase.Columns[5].Width = 150;
-            // raw_recive
-            dgrDatabase.Columns[6].Width = 150;
-            // raw_remark
-            dgrDatabase.Columns[7].Width = 100;
-
-            if (dgrDatabase.RowCount  > 0)
+            try
             {
-                index = Int32.Parse(dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0].Value.ToString());
+                con.Open();
+                MySqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT * FROM " + table;
+                cmd.ExecuteNonQuery();
+                MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+                ds = new DataSet();
+                da.Fill(ds, "tblArcana");
+
+                dgrDatabase.DataSource = ds.Tables["tblArcana"];
+
+                // set width cell
+                // id
+                dgrDatabase.Columns[0].Width = 40;
+                // datetime
+                dgrDatabase.Columns[1].Width = 70;
+                //dgrDatabase.Columns[1].DefaultCellStyle.Format = "MM/dd/yyyy";
+                // send
+                dgrDatabase.Columns[2].Width = 150;
+                // recive
+                dgrDatabase.Columns[3].Width = 200;
+                // keyconfig
+                dgrDatabase.Columns[4].Width = 220;
+                // raw_send
+                dgrDatabase.Columns[5].Width = 150;
+                // raw_recive
+                dgrDatabase.Columns[6].Width = 150;
+                // raw_remark
+                dgrDatabase.Columns[7].Width = 100;
+
+                if (dgrDatabase.RowCount > 0)
+                {
+                    index = Int32.Parse(dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0].Value.ToString());
+                }
+                //set below scorllbar
+                //dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0];
+                dgrDatabase.Sort(dgrDatabase.Columns[0], ListSortDirection.Descending);
+                con.Close();
+            } catch (Exception er)
+            {
+                MessageBox.Show(er.ToString());
             }
-            //set below scorllbar
-            //dgrDatabase.FirstDisplayedCell = dgrDatabase.Rows[dgrDatabase.Rows.Count - 1].Cells[0];
-            dgrDatabase.Sort(dgrDatabase.Columns[0], ListSortDirection.Descending);
-            con.Close();
         }
 
         public void writeCSV(DataGridView gridIn, string outputFile)

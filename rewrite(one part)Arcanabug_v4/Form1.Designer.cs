@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlPort = new System.Windows.Forms.Panel();
             this.comboPort = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -625,8 +625,8 @@
             this.dgrDatabase.Location = new System.Drawing.Point(3, 71);
             this.dgrDatabase.Name = "dgrDatabase";
             this.dgrDatabase.ReadOnly = true;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgrDatabase.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgrDatabase.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgrDatabase.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgrDatabase.Size = new System.Drawing.Size(694, 290);
             this.dgrDatabase.TabIndex = 17;
@@ -755,6 +755,9 @@
             this.Controls.Add(this.pnlEncrypt);
             this.Controls.Add(this.pnlKey);
             this.Controls.Add(this.pnlPort);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Rewrite(1part) ArcanaDebug";

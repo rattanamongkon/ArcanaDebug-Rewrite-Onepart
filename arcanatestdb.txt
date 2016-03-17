@@ -1,0 +1,11 @@
+CREATE TABLE [dbo].[tblarcana] (
+    [Id]         INT        IDENTITY (1, 1) NOT NULL,
+    [datetime]   VARCHAR (21)   NULL,
+    [send]       VARCHAR (41) NULL,
+    [recive]     VARCHAR (26) NULL,
+    [keyconfig]  VARCHAR (29) NULL,
+    [raw_send]   VARCHAR (42) NULL,
+    [raw_recive] VARCHAR (34) NULL,
+    [remark]     VARCHAR (11) NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);

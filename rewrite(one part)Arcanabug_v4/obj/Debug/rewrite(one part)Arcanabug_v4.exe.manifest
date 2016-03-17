@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="rewrite(one part)Arcanabug_v4.exe" size="155632">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="rewrite(one part)Arcanabug_v4.exe" size="163824">
       <assemblyIdentity name="rewrite(one part)Arcanabug_v4" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>7RMiAqkNnGJHfBERYfHNPctAupg=</dsig:DigestValue>
+        <dsig:DigestValue>ZmFGieMIbAg4RDDMX+0HwgmWtNg=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

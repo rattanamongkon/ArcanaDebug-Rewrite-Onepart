@@ -14,3 +14,21 @@ C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)A
 C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\MySql.Data.dll
 C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.LoginDB.resources
 C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.NameCreate.resources
+C:\Users\RATTANAMONGKON\Documents\Visual Studio 2015\Projects\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.exe.config
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.exe.config
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.exe
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.pdb
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.exe.manifest
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.application
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.exe
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\rewrite(one part)Arcanabug_v4.pdb
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\bin\Debug\MySql.Data.dll
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.Form1.resources
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.Form2.resources
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.Form3.resources
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.LoginDB.resources
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.NameCreate.resources
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite_one_part_Arcanabug_v4.Properties.Resources.resources
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.csproj.GenerateResource.Cache
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.exe.manifest
+F:\Information\v2.2\rewrite(one part)Arcanabug_v4\rewrite(one part)Arcanabug_v4\obj\Debug\rewrite(one part)Arcanabug_v4.application

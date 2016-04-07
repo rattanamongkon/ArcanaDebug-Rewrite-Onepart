@@ -21,7 +21,11 @@ namespace rewrite_one_part_Arcanabug_v4
         //string myConnectionString = "server=localhost;database=arcanatestdb;uid=root;pwd=ๅ/-ภ;";
         private void LoginDB_Load(object sender, EventArgs e)
         {
-
+            btLogin.Focus();
+            tbServer.Text = Properties.Settings.Default.nameServer;
+            tbPort.Text = Properties.Settings.Default.namePort;
+            tbUid.Text = Properties.Settings.Default.nameUid;
+            tbPwd.Text = Properties.Settings.Default.namePwd;
         }
 
         public string connetionString = null;
@@ -49,11 +53,17 @@ namespace rewrite_one_part_Arcanabug_v4
                     queryAll();
                     MessageBox.Show("Connection Open ! ");
                     panel2.Enabled = true;
+                    Properties.Settings.Default.nameServer = tbServer.Text;
+                    Properties.Settings.Default.namePort = tbPort.Text;
+                    Properties.Settings.Default.nameUid = tbUid.Text;
+                    Properties.Settings.Default.namePwd = tbPwd.Text;
+                    Properties.Settings.Default.Save();
                     //panel1.Enabled = false;
                 }
-                catch (Exception ex)
+                catch (MySqlException ex)
                 {
-                    MessageBox.Show("Can't open connection ! \n Please cheak you Server name/Username/Password","Authentication Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //MessageBox.Show("Can't open connection ! \n Please cheak you Server name/Port/Username/Password","Authentication Fail", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(ex.ToString());
                 }
             }
         }
@@ -66,30 +76,25 @@ namespace rewrite_one_part_Arcanabug_v4
         private void queryDatabase()
         {
             treeView1.Nodes.Clear();
-            connetionString = "Server = " + tbServer.Text + ";  Port = 3306; Uid = " + tbUid.Text + "; Pwd = " + tbPwd.Text;
+            //connetionString = "Server = " + tbServer.Text + ";  Port = " + tbPort.Text + "; Uid = " + tbUid.Text + "; Pwd = " + tbPwd.Text;
+            connetionString = "Data Source = " + tbServer.Text + ";  Port = " + tbPort.Text + "; User ID = " + tbUid.Text + "; PWD = " + tbPwd.Text +"; charset = utf8";
             cnn = new MySqlConnection(connetionString);
-            try
+            MySqlCommand cmd = cnn.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SHOW DATABASES;";
+            MySqlDataReader Reader;
+            cnn.Open();
+            Reader = cmd.ExecuteReader();
+            while (Reader.Read())
             {
-                MySqlCommand cmd = cnn.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "SHOW DATABASES;";
-                MySqlDataReader Reader;
-                cnn.Open();
-                Reader = cmd.ExecuteReader();
-                while (Reader.Read())
+                string root = "";
+                for (int i = 0; i < Reader.FieldCount; i++)
                 {
-                    string root = "";
-                    for (int i = 0; i < Reader.FieldCount; i++)
-                    {
-                        root += Reader.GetValue(i).ToString();
-                    }
-                    listDatabase.Add(root);
+                    root += Reader.GetValue(i).ToString();
                 }
-                cnn.Close();
-            } catch (Exception er)
-            {
-                MessageBox.Show(er.ToString());
+                listDatabase.Add(root);
             }
+            cnn.Close();
         }
 
         public void queryAll()
@@ -133,7 +138,6 @@ namespace rewrite_one_part_Arcanabug_v4
             }
             NameCreate fCreate = new NameCreate(connetionString, type,path[0]);
             fCreate.Show();
-            queryAll();
         }
 
         private void btConnect_Click(object sender, EventArgs e)
@@ -147,8 +151,9 @@ namespace rewrite_one_part_Arcanabug_v4
                 string[] path = treeView1.SelectedNode.FullPath.Split('\\');
                 if (path.Length > 1)
                 {
+                    string fullPath = "(MySQL\\" + tbServer.Text + "\\" + path[0] + "\\" + path[1] + ")";
                     connetionString = "Server = " + tbServer.Text + ";  Port = 3306; Database = " + path[0] + "; Uid = " + tbUid.Text + "; Pwd = " + tbPwd.Text;
-                    Form1 f1 = new Form1(connetionString, path[1]);
+                    Form1 f1 = new Form1(connetionString, path[1], fullPath);
                     f1.Show();
                     this.Hide();
                 }
@@ -230,6 +235,11 @@ namespace rewrite_one_part_Arcanabug_v4
         private void button1_Click(object sender, EventArgs e)
         {
             queryAll();
+        }
+
+        private void LoginDB_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

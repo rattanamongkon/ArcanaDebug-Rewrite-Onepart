@@ -33,5 +33,53 @@ namespace rewrite_one_part_Arcanabug_v4.Properties {
                 return ((string)(this["Database1ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("localhost")]
+        public string nameServer {
+            get {
+                return ((string)(this["nameServer"]));
+            }
+            set {
+                this["nameServer"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3306")]
+        public string namePort {
+            get {
+                return ((string)(this["namePort"]));
+            }
+            set {
+                this["namePort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("root")]
+        public string nameUid {
+            get {
+                return ((string)(this["nameUid"]));
+            }
+            set {
+                this["nameUid"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("root")]
+        public string namePwd {
+            get {
+                return ((string)(this["namePwd"]));
+            }
+            set {
+                this["namePwd"] = value;
+            }
+        }
     }
 }

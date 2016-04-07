@@ -39,6 +39,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbPort = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.btDelete = new System.Windows.Forms.Button();
             this.btCreateTable = new System.Windows.Forms.Button();
@@ -50,20 +52,20 @@
             // 
             // btLogin
             // 
-            this.btLogin.Location = new System.Drawing.Point(35, 135);
+            this.btLogin.Location = new System.Drawing.Point(34, 150);
             this.btLogin.Name = "btLogin";
             this.btLogin.Size = new System.Drawing.Size(73, 35);
-            this.btLogin.TabIndex = 0;
+            this.btLogin.TabIndex = 5;
             this.btLogin.Text = "Login";
             this.btLogin.UseVisualStyleBackColor = true;
             this.btLogin.Click += new System.EventHandler(this.btLogin_Click);
             // 
             // btCancel
             // 
-            this.btCancel.Location = new System.Drawing.Point(127, 135);
+            this.btCancel.Location = new System.Drawing.Point(126, 150);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(73, 35);
-            this.btCancel.TabIndex = 1;
+            this.btCancel.TabIndex = 6;
             this.btCancel.Text = "Exit";
             this.btCancel.UseVisualStyleBackColor = true;
             this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
@@ -81,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 75);
+            this.label2.Location = new System.Drawing.Point(18, 101);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 3;
@@ -90,7 +92,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(18, 101);
+            this.label3.Location = new System.Drawing.Point(18, 127);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(53, 13);
             this.label3.TabIndex = 4;
@@ -98,19 +100,19 @@
             // 
             // tbUid
             // 
-            this.tbUid.Location = new System.Drawing.Point(85, 72);
+            this.tbUid.Location = new System.Drawing.Point(85, 98);
             this.tbUid.Name = "tbUid";
             this.tbUid.Size = new System.Drawing.Size(131, 20);
-            this.tbUid.TabIndex = 5;
+            this.tbUid.TabIndex = 3;
             this.tbUid.Text = "root";
             // 
             // tbPwd
             // 
-            this.tbPwd.Location = new System.Drawing.Point(85, 98);
+            this.tbPwd.Location = new System.Drawing.Point(85, 124);
             this.tbPwd.Name = "tbPwd";
             this.tbPwd.PasswordChar = '*';
             this.tbPwd.Size = new System.Drawing.Size(131, 20);
-            this.tbPwd.TabIndex = 6;
+            this.tbPwd.TabIndex = 4;
             this.tbPwd.Text = "root";
             // 
             // tbServer
@@ -118,7 +120,7 @@
             this.tbServer.Location = new System.Drawing.Point(85, 46);
             this.tbServer.Name = "tbServer";
             this.tbServer.Size = new System.Drawing.Size(131, 20);
-            this.tbServer.TabIndex = 8;
+            this.tbServer.TabIndex = 1;
             this.tbServer.Text = "localhost";
             // 
             // label4
@@ -141,6 +143,8 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.tbPort);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.btLogin);
             this.panel1.Controls.Add(this.tbServer);
@@ -154,6 +158,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(234, 199);
             this.panel1.TabIndex = 12;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(18, 75);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(26, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Port";
+            // 
+            // tbPort
+            // 
+            this.tbPort.Location = new System.Drawing.Point(85, 72);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.Size = new System.Drawing.Size(131, 20);
+            this.tbPort.TabIndex = 2;
+            this.tbPort.Text = "3306";
             // 
             // panel2
             // 
@@ -175,7 +196,7 @@
             this.btDelete.Location = new System.Drawing.Point(322, 102);
             this.btDelete.Name = "btDelete";
             this.btDelete.Size = new System.Drawing.Size(96, 23);
-            this.btDelete.TabIndex = 15;
+            this.btDelete.TabIndex = 9;
             this.btDelete.Text = "Delete DB";
             this.btDelete.UseVisualStyleBackColor = true;
             this.btDelete.Click += new System.EventHandler(this.btDelete_Click);
@@ -186,7 +207,7 @@
             this.btCreateTable.Location = new System.Drawing.Point(322, 73);
             this.btCreateTable.Name = "btCreateTable";
             this.btCreateTable.Size = new System.Drawing.Size(96, 23);
-            this.btCreateTable.TabIndex = 14;
+            this.btCreateTable.TabIndex = 8;
             this.btCreateTable.Text = "Create Table";
             this.btCreateTable.UseVisualStyleBackColor = true;
             this.btCreateTable.Click += new System.EventHandler(this.btCreateTable_Click);
@@ -197,7 +218,7 @@
             this.btConnect.Location = new System.Drawing.Point(322, 131);
             this.btConnect.Name = "btConnect";
             this.btConnect.Size = new System.Drawing.Size(96, 63);
-            this.btConnect.TabIndex = 13;
+            this.btConnect.TabIndex = 10;
             this.btConnect.Text = "Connect DB";
             this.btConnect.UseVisualStyleBackColor = true;
             this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
@@ -207,13 +228,14 @@
             this.btCreate.Location = new System.Drawing.Point(322, 44);
             this.btCreate.Name = "btCreate";
             this.btCreate.Size = new System.Drawing.Size(96, 23);
-            this.btCreate.TabIndex = 12;
+            this.btCreate.TabIndex = 7;
             this.btCreate.Text = "Create DB";
             this.btCreate.UseVisualStyleBackColor = true;
             this.btCreate.Click += new System.EventHandler(this.btCreate_Click);
             // 
             // LoginDB
             // 
+            this.AcceptButton = this.btLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(691, 223);
@@ -225,6 +247,7 @@
             this.Name = "LoginDB";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LoginDB_FormClosed);
             this.Load += new System.EventHandler(this.LoginDB_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -251,5 +274,7 @@
         private System.Windows.Forms.Button btConnect;
         private System.Windows.Forms.Button btCreate;
         public System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tbPort;
     }
 }

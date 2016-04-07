@@ -33,43 +33,50 @@ namespace rewrite_one_part_Arcanabug_v4
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            MySqlCommand cmd;
-            string s0 = "";
-            try
+            if (textBox1.Text != "")
             {
-                con.Open();
-                if (typeLabel == "Database")
+                MySqlCommand cmd;
+                string s0 = "";
+                try
                 {
-                    s0 = "CREATE DATABASE IF NOT EXISTS `" + textBox1.Text + "`;";
-                } else
-                {
-                    //use database;
-                    cmd = new MySqlCommand("USE `" + path + "`", con);
+                    con.Open();
+                    if (typeLabel == "Database")
+                    {
+                        s0 = "CREATE DATABASE IF NOT EXISTS `" + textBox1.Text + "`;";
+                    }
+                    else
+                    {
+                        //use database;
+                        cmd = new MySqlCommand("USE `" + path + "`", con);
+                        cmd.ExecuteNonQuery();
+                        //string create table
+                        s0 = "CREATE TABLE IF NOT EXISTS `" + textBox1.Text + "` (" +
+                            "`id` INT NOT NULL AUTO_INCREMENT," +
+                            "`status` VARCHAR(40) NULL," +
+                            "`send` VARCHAR(41) NULL," +
+                            "`recive` VARCHAR(26) NULL," +
+                            "`keyconfig` VARCHAR(29) NULL," +
+                            "`raw_send` VARCHAR(42) NULL," +
+                            "`raw_recive` VARCHAR(34) NULL," +
+                            "`remark` VARCHAR(11) NULL," +
+                            "`datetime` VARCHAR(21) NULL," +
+                            "PRIMARY KEY (`id`));";
+                    }
+                    //create table in database
+                    cmd = new MySqlCommand(s0, con);
                     cmd.ExecuteNonQuery();
-                    //string create table
-                    s0 = "CREATE TABLE IF NOT EXISTS `" + textBox1.Text + "` (" +
-                        "`id` INT NOT NULL AUTO_INCREMENT," +
-                        "`datetime` VARCHAR(21) NULL," +
-                        "`send` VARCHAR(41) NULL," +
-                        "`recive` VARCHAR(26) NULL," +
-                        "`keyconfig` VARCHAR(29) NULL," +
-                        "`raw_send` VARCHAR(42) NULL," +
-                        "`raw_recive` VARCHAR(34) NULL," +
-                        "`remark` VARCHAR(11) NULL," +
-                        "PRIMARY KEY (`id`));";
+                    cmd.Dispose();
+                    con.Close();
+                    MessageBox.Show("Create " + typeLabel + " Success!!");
+                    this.Close();
                 }
-                //create table in database
-                cmd = new MySqlCommand(s0, con);
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
-                con.Close();
-                MessageBox.Show("Create " + typeLabel + " Success!!");
-                this.Close();
-            }
-            catch (Exception exc)
+                catch (Exception exc)
+                {
+                    MessageBox.Show(exc.ToString());
+                }
+            }else
             {
-                MessageBox.Show(exc.ToString());
+                MessageBox.Show("Please enter " + typeLabel + " name!!!","Please...",MessageBoxButtons.OK,MessageBoxIcon.Warning,MessageBoxDefaultButton.Button1);
             }
         }
 
@@ -80,9 +87,28 @@ namespace rewrite_one_part_Arcanabug_v4
 
         private void NameCreate_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (System.Windows.Forms.Application.OpenForms["LoginDB"] != null)
+            if (textBox1.Text != "")
             {
-                (System.Windows.Forms.Application.OpenForms["LoginDB"] as LoginDB).queryAll();
+                if (System.Windows.Forms.Application.OpenForms["LoginDB"] != null)
+                {
+                    (System.Windows.Forms.Application.OpenForms["LoginDB"] as LoginDB).queryAll();
+                }
+            }
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar >= 97 && (int)e.KeyChar <= 122)
+                || ((int)e.KeyChar >= 48 && (int)e.KeyChar <= 57)
+                || (int)e.KeyChar == 8
+                || (int)e.KeyChar == 13
+                || (int)e.KeyChar == 46
+                || (int)e.KeyChar == 95)
+            {
+                e.Handled = false;
+            } else
+            {
+                e.Handled = true;
             }
         }
     }
